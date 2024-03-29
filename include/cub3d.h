@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 13:22:39 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/29 13:31:33 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct t_parsing
 	char	*path_east_tex;
 	char	*floor_color;
 	char	*ceiling_color;
+	char	*player_position;
 }			t_parsing;
 
 #endif
