@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 14:04:34 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/29 14:45:25 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include <fcntl.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <unistd.h>
 
@@ -30,6 +31,7 @@ typedef struct t_parsing
 	char	*floor_color;
 	char	*ceiling_color;
 	char	*player_position;
+	bool	map_complete;
 }			t_parsing;
 
 /*
@@ -38,12 +40,11 @@ PARSING
 int			parsing(char *file, t_parsing *data);
 int			filename_check(t_parsing *data);
 int			open_file(t_parsing *data);
-int			set_textures_and_colors(t_parsing *data);
+int			read_file(t_parsing *data);
 
 /*
 UTILS
 */
-void	ft_free(char **buffer);
-
+void		ft_free(char **buffer);
 
 #endif
