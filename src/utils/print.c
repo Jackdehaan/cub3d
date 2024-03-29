@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main_parser.c                                      :+:    :+:            */
+/*   print.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/03/29 13:45:51 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 15:05:58 by rfinneru      ########   odam.nl         */
+/*   Created: 2024/03/29 16:58:32 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/03/29 16:59:42 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	parsing(char *file, t_parsing *data)
+void	print_tex_color(t_parsing *data)
 {
-	data->filename = file;
-	if (!filename_check(data))
-		return (0);
-	if (!open_file(data))
-		return (0);
-	if (!read_file(data))
-		return (0);
-	return (1);
+	printf("%s\n", data->path_north_tex);
+	printf("%s\n", data->path_south_tex);
+	printf("%s\n", data->path_west_tex);
+	printf("%s\n", data->path_east_tex);
+	printf("%s\n", data->floor_color);
+	printf("%s\n", data->ceiling_color);
 }

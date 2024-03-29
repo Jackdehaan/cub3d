@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 14:45:25 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/03/29 17:11:30 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <unistd.h>
+
+typedef enum TEX_COLOR
+{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C,
+}			TEX_COLOR;
 
 typedef struct t_parsing
 {
@@ -31,7 +41,6 @@ typedef struct t_parsing
 	char	*floor_color;
 	char	*ceiling_color;
 	char	*player_position;
-	bool	map_complete;
 }			t_parsing;
 
 /*
@@ -46,5 +55,7 @@ int			read_file(t_parsing *data);
 UTILS
 */
 void		ft_free(char **buffer);
+char		*ft_strndup(char *s, size_t n);
+void		print_tex_color(t_parsing *data);
 
 #endif

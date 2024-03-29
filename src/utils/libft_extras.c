@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main_parser.c                                      :+:    :+:            */
+/*   libft_extras.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/03/29 13:45:51 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 15:05:58 by rfinneru      ########   odam.nl         */
+/*   Created: 2024/03/29 16:56:49 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/03/29 16:57:14 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	parsing(char *file, t_parsing *data)
+char	*ft_strndup(char *s, size_t n)
 {
-	data->filename = file;
-	if (!filename_check(data))
-		return (0);
-	if (!open_file(data))
-		return (0);
-	if (!read_file(data))
-		return (0);
-	return (1);
+	size_t	i;
+	char	*ptr;
+	char	*temp;
+
+	i = 0;
+	while (s[i] && i < n)
+		i++;
+	temp = (char *)malloc((i + 1) * sizeof(char));
+	if (!temp)
+		return (NULL);
+	ptr = temp;
+	i = 0;
+	while (s[i] && i < n)
+	{
+		*ptr = s[i];
+		ptr++;
+		i++;
+	}
+	*ptr = '\0';
+	return (temp);
 }
