@@ -19,7 +19,7 @@ SRC :=  $(wildcard $(SRC_DIR)/*.c)
 OBJS_DIR = objs
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
 
-NAME = cub3d
+NAME = cub3D
 
 LIBS_TARGET = src/libft.a
 
