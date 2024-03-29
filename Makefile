@@ -13,8 +13,15 @@ ifdef BUG
 endif
 
 SRC_DIR = src
+PARSING_DIR = parsing
+UTILS_DIR = utils
+GNL_DIR = gnl
 
-SRC :=  $(wildcard $(SRC_DIR)/*.c)
+
+SRC :=  $(wildcard $(SRC_DIR)/*.c) \
+		$(wildcard $(SRC_DIR)/$(PARSING_DIR)/*.c) \
+		$(wildcard $(SRC_DIR)/$(UTILS_DIR)/*.c) \
+		$(wildcard $(SRC_DIR)/$(GNL_DIR)/*.c)
 
 OBJS_DIR = objs
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -52,7 +59,7 @@ library: $(LIBS_TARGET)
 re: fclean all
 
 $(NAME): $(OBJS_DIR) $(OBJ) $(LIBS_TARGET)
-	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LINKERFLAGS) $(LIBS_TARGET) $(LIBS_TARGET) -lreadline 
+	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LINKERFLAGS) $(LIBS_TARGET) $(LIBS_TARGET)
 	@echo "$(GREEN)Compiled cub3d!$(DEFAULT)"
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
