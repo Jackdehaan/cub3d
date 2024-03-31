@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 17:11:30 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
+/*   Updated: 2024/03/31 16:17:38 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ typedef struct t_parsing
 	char	*floor_color;
 	char	*ceiling_color;
 	char	*player_position;
+	int		map_width;
+	int		map_height;
+	int		**map_flood;
 }			t_parsing;
 
 /*
@@ -50,6 +53,8 @@ int			parsing(char *file, t_parsing *data);
 int			filename_check(t_parsing *data);
 int			open_file(t_parsing *data);
 int			read_file(t_parsing *data);
+int			check_map(t_parsing *data);
+int			init_map(t_parsing *data);
 
 /*
 UTILS
