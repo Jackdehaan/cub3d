@@ -1,45 +1,41 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g 
 
-# LDFLAGS =
-# ifeq ($(shell uname -s),Linux)
-#     CC +=-fsanitize=leak
-# endif
-# ifdef FSAN
-#     CC +=-fsanitize=address
-# endif
-# ifdef BUG
-#     CFLAGS +=-g
-# endif
-
 SRC_DIR = src
 PARSING_DIR = parsing
 UTILS_DIR = utils
 GNL_DIR = gnl
 
-
 SRC :=  $(wildcard $(SRC_DIR)/*.c) \
-		$(wildcard $(SRC_DIR)/$(PARSING_DIR)/*.c) \
-		$(wildcard $(SRC_DIR)/$(UTILS_DIR)/*.c) \
-		$(wildcard $(SRC_DIR)/$(GNL_DIR)/*.c)
+	    $(wildcard $(SRC_DIR)/$(PARSING_DIR)/*.c) \
+        $(wildcard $(SRC_DIR)/$(UTILS_DIR)/*.c) \
+        $(wildcard $(SRC_DIR)/$(GNL_DIR)/*.c)
 
 OBJS_DIR = objs
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 NAME = cub3D
 
-LIBS_TARGET = src/libft.a
-
 LIBFT_DIR = libft
+LIBFT_TARGET = src/libft.a
 
-.PHONY: all clean fclean re
+LIBMLX_TARGET    := lib/MLX42/build/libmlx42.a 
+
+
+# LIBMLX_target = libmlx42.a 
+
+.PHONY: all clean fclean re libmlx
 
 all: $(NAME)
+
+$(LIBMLX_TARGET):
+	make -C $(@D)
 
 clean:
 	rm -rf $(OBJ)
 	@echo "$(YELLOW)Removed all objects!$(DEFAULT)"
 	$(MAKE) -C $(LIBFT_DIR) clean
+	make -C $(dir $(LIBMLX_TARGET)) clean
 	@echo "$(YELLOW)Cleaned libft static library!$(DEFAULT)"
 
 fclean: clean
@@ -47,19 +43,18 @@ fclean: clean
 	rm -rf $(OBJS_DIR)
 	@echo "$(RED)Removed executables!$(DEFAULT)"
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(SRC_DIR)/libft.a
+	rm -f $(LIBFT_TARGET)
 	@echo "$(RED)Removed libft static library in src directory!$(DEFAULT)"
 
-
-$(LIBS_TARGET):
+$(LIBFT_TARGET):
 	$(MAKE) -C $(LIBFT_DIR)
 
-library: $(LIBS_TARGET)
+library: $(LIBFT_TARGET)
 
 re: fclean all
 
-$(NAME): $(OBJS_DIR) $(OBJ) $(LIBS_TARGET)
-	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LINKERFLAGS) $(LIBS_TARGET) $(LIBS_TARGET)
+$(NAME): $(OBJS_DIR) $(OBJ) $(LIBFT_TARGET) $(LIBMLX_TARGET)
+	$(CC) -o $(NAME) $(OBJ) $(LIBMLX_TARGET) $(LDFLAGS) $(LINKERFLAGS) -ldl -lglfw -pthread -lm $(LIBFT_TARGET)
 	@echo "$(GREEN)Compiled cub3d!$(DEFAULT)"
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
@@ -69,7 +64,7 @@ $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
 
-fsan:
+/fsan:
 	$(MAKE) FSAN=1 BUG=1
 .PHONY: fsan
 
@@ -82,9 +77,3 @@ debug:
 
 rebug:  fclean debug
 .PHONY: rebug
-
-#COLORS
-RED = \033[1;31m
-GREEN = \033[1;32m
-YELLOW = \033[1;33m
-DEFAULT = \033[0m

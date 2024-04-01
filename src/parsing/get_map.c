@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:33:44 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/03/31 15:29:04 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:45:52 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print2d_array(t_parsing *data)
 	}
 }
 
-int	set_value(char value)
+int	set_value(char value, t_parsing *data, int y, int x)
 {
 	if (value == '1')
 		return (1);
@@ -40,8 +40,12 @@ int	set_value(char value)
 		return (0);
 	else if (value == '\n')
 		return (2);
-	else if (value > 'A' && value < 'Z')
-		return(0);
+	else if (value == 'N' || value == 'E' || value == 'S' || value == 'W')
+	{
+		data->player_position[0] = y;
+		data->player_position[1] = x;
+		return (0);
+	}
 	else
 		return (2);
 }
@@ -109,9 +113,9 @@ int	**set_two(t_parsing *data)
 
 int	init_map(t_parsing *data)
 {
-	int i;
-	int j;
-	int index;
+	int	i;
+	int	j;
+	int	index;
 
 	j = 0;
 	i = 0;
@@ -123,7 +127,7 @@ int	init_map(t_parsing *data)
 		i = 0;
 		while (i < data->map_width)
 		{
-			data->map_flood[j][i] = set_value(data->map[index]);
+			data->map_flood[j][i] = set_value(data->map[index], data, j, i);
 			if (data->map[index] == '\n' && i < data->map_width - 1)
 			{
 				while (i < data->map_width - 1)

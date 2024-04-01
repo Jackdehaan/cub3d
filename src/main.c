@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 12:10:48 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 13:46:13 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 12:10:48 by rfinneru          #+#    #+#             */
+/*   Updated: 2024/04/01 15:43:50 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(int ac, char **av)
 	{
 		if (!parsing(av[1], &data))
 			return (1);
+		if (!render_cube(&data))
+			return (0);
 	}
 	else
 		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21), 1);
