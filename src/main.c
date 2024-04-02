@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:10:48 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/01 15:43:50 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:16:40 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ int	main(int ac, char **av)
 	{
 		if (!parsing(av[1], &data))
 			return (1);
-		if (!render_cube(&data))
-			return (0);
+		// if (!render_cube(&data))
+		// 	return (0);
+		mlx_loop_hook(data.window, render_cube, &data);
+		mlx_loop(data.window);
+		mlx_terminate(data.window);
 	}
 	else
 		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21), 1);

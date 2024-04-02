@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/01 15:43:42 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:02:35 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void			ft_free(char **buffer);
 char			*ft_strndup(char *s, size_t n);
 void			print_tex_color(t_parsing *data);
 
-int	render_cube(t_parsing *data);
+void	render_cube(void *param);
 
 #endif

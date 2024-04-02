@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:51:25 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/04/01 16:08:12 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:10:15 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, int color)
 	float	X;
 	float	Y;
 	int		i;
+	(void)color;
 
 	dx = X1 - X0;
 	dy = Y1 - Y0;
@@ -39,47 +40,48 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, int color)
 	i = 0;
 	while (i <= steps)
 	{
-		mlx_put_pixel(data->image, round(X), round(Y), color);
+		mlx_put_pixel(data->image, round(X), round(Y), 0xFFFFFF);
 		Y += Yinc;
 		i++;
 	}
 }
 
-int	render_cube(t_parsing *data)
+void	render_cube(void *param)
 {
-	double	rayDirX;
-	double	rayDirY;
-	double	planeX;
-	double	planeY;
-	double	cameraX;
-	int		x;
-	int		mapX;
-	int		mapY;
-	int		posY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	posX;
-	double	dirX;
-	double	dirY;
-	double	perpWallDist;
-	int		stepX;
-	int		stepY;
-	int		hit;
-	int		side;
-	int		lineHeight;
-	int		drawStart;
-	int		drawEnd;
-	int		color;
-	int		x0;
-	int		y0;
-	int		x1;
-	int		y1;
+	t_parsing	*data;
+	double		rayDirX;
+	double		rayDirY;
+	double		planeX;
+	double		planeY;
+	double		cameraX;
+	int			x;
+	int			mapX;
+	int			mapY;
+	int			posY;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+	double		posX;
+	double		dirX;
+	double		dirY;
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			side;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+	int			color;
+	int			x0;
+	int			y0;
+	int			x1;
+	int			y1;
 
+	data = param;
 	posX = data->player_position[1];
 	posY = data->player_position[0];
-	dirX = -1;
 	dirX = -1, dirY = 0;
 	planeX = 0, planeY = 0.66;
 	x = 0;
@@ -130,6 +132,7 @@ int	render_cube(t_parsing *data)
 			if (data->map_flood[mapY][mapX] > 0)
 				hit = 1;
 		}
+		// printf("%d | %d\n", mapY, mapX);
 		if (side == 0)
 			perpWallDist = (sideDistX - deltaDistX);
 		else
@@ -143,36 +146,28 @@ int	render_cube(t_parsing *data)
 		drawEnd = lineHeight / 2 + HEIGHT / 2;
 		if (drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
-		// choose wall color
-		switch (data->map_flood[mapX][mapY])
-		{
-		case 1:
-			color = 0xFFFFFF;
-			break ; // red
-		case 2:
-			color = 0xFF00FF;
-			break ; // green
-		case 3:
-			color = 0xFFFF00;
-			break ; // blue
-		case 4:
+		// if (mapX < data->map_width && mapY < data->map_height && mapY >= 0
+		// 	&& mapX >= 0)
+		// {
+		if (data->map_flood[mapY][mapX] == 0)
 			color = 0x00FF00;
-			break ; // white
-		default:
-			color = 0xFF00FA;
-			break ; // yellow
-		}
+		else if (data->map_flood[mapY][mapX] == 1)
+			color = 0xFF0000;
+		// 	break ; // white
+		// default:
+		// 	color = 0xFF00FA;
+		// 	break ; // yellow
+		// }
 		// give x and y sides different brightness
-		if (side == 1)
-		{
-			color = color / 2;
-		}
+		// if (side == 1)
+		// {
+		// 	color = color / 2;
+		// }
 		x0 = x;
 		y0 = drawStart;
 		x1 = x;
 		y1 = drawEnd;
-		dda(data, x0, y0, x1, y1, color);
+		dda(data, x0, y0, x1, y1, 0xFF0000);
 		x++;
 	}
-	return (1);
 }
