@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:51:25 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/04/02 15:10:15 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:07:35 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,18 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, int color)
 	i = 0;
 	while (i <= steps)
 	{
+		if (X0 > 0 && X0 < WIDTH && Y0 > 0
+			&& Y0 < HEIGHT)
+		{
 		mlx_put_pixel(data->image, round(X), round(Y), 0xFFFFFF);
+		}
 		Y += Yinc;
 		i++;
 	}
 }
 
-void	render_cube(void *param)
+void	render_cube(t_parsing *data)
 {
-	t_parsing	*data;
 	double		rayDirX;
 	double		rayDirY;
 	double		planeX;
@@ -79,10 +82,9 @@ void	render_cube(void *param)
 	int			x1;
 	int			y1;
 
-	data = param;
 	posX = data->player_position[1];
 	posY = data->player_position[0];
-	dirX = -1, dirY = 0;
+	dirX = 0, dirY = 0;
 	planeX = 0, planeY = 0.66;
 	x = 0;
 	while (x < WIDTH)
