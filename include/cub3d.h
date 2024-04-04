@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/02 16:05:52 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/04/04 14:41:59 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 typedef struct t_raycasting
 {
-	double				dir_y;
-	double				dir_x;
+	double			dir_y;
+	double			dir_x;
 }					t_raycasting;
 
 typedef enum TEX_COLOR
@@ -51,6 +51,10 @@ typedef struct t_parsing
 	char			*path_south_tex;
 	char			*path_west_tex;
 	char			*path_east_tex;
+	int				fd_north_tex;
+	int				fd_south_tex;
+	int				fd_west_tex;
+	int				fd_east_tex;
 	char			*floor_color;
 	char			*ceiling_color;
 	int				player_position[2];

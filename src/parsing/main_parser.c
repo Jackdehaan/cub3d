@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main_parser.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 13:45:51 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/04 14:00:16 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main_parser.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 13:45:51 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/04/04 14:41:55 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/home/jade-haa/1 april/lib/MLX42/include/MLX42/MLX42.h"
-// #include "../../include/cub3d.h"
-#include "/home/jade-haa/1 april/include/cub3d.h"
+#include "../../include/cub3d.h"
 
 int init_mlx(t_parsing *data)
 {

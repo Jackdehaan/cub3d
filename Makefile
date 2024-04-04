@@ -55,7 +55,7 @@ re: fclean all
 
 $(NAME): $(OBJS_DIR) $(OBJ) $(LIBFT_TARGET) $(LIBMLX_TARGET)
 	$(CC) -o $(NAME) $(OBJ) $(LIBMLX_TARGET) $(LDFLAGS) $(LINKERFLAGS) -ldl -lglfw -pthread -lm $(LIBFT_TARGET)
-	@echo "$(GREEN)Compiled cub3d!$(DEFAULT)"
+	@echo "$(GREEN)Compiled cub3D!$(DEFAULT)"
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(shell dirname $@)
