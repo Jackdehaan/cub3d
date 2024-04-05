@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:10:48 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/04 14:05:57 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:10:48 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/04/04 18:26:28 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ void	keys_loop(void *param)
 	data = param;
 	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
 		mlx_close_window(data->window);
-	
-	printf("%d | %d | %d | %d\n", data->player_position[0], data->player_position[1], data->map_height, data->map_width);
-
+	printf("%d | %d | %d | %d\n", data->player_position[0],
+		data->player_position[1], data->map_height, data->map_width);
 	if (mlx_is_key_down(data->window, MLX_KEY_UP))
 	{
 		if (((data->player_position[0]) + 2) < data->map_height)

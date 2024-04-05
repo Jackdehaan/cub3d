@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/04 14:41:52 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/04 18:29:52 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,10 @@ int	xpm_file_check(char *str, int *fd)
 		return (1);
 }
 
-int	check_tex_path(t_parsing *data)
+int	check_tex_path(t_parsing *data, int ret)
 {
+	if (!ret)
+		return (0);
 	if (!xpm_file_check(data->path_north_tex, &data->fd_north_tex))
 		return (0);
 	if (!xpm_file_check(data->path_south_tex, &data->fd_south_tex))
@@ -171,12 +173,101 @@ int	check_tex_path(t_parsing *data)
 	return (1);
 }
 
-// int	color_to_hex(t_parsing *data)
-// {
-	
-// }
+int	malloc_color(char **color, char *str, int i)
+{
+	int	y;
 
-int	remove_whitespace(char **str)
+	y = 0;
+	while (str[i] && str[i] != ',')
+	{
+		if (y == 0 && str[i] == '0')
+		{
+			i++;
+			continue ;
+		}
+		y++;
+		i++;
+	}
+	*color = (char *)malloc(sizeof(char) * (y + 1));
+	if (!*color)
+		return (0);
+	return (1);
+}
+
+int	color_valid_check(char *str, int ret)
+{
+	int		x;
+	char	*color;
+	int		i;
+	int		y;
+
+	y = 0;
+	i = 0;
+	x = 0;
+	if (!ret)
+		return (0);
+	while (x < 3)
+	{
+		malloc_color(&color, str, i);
+		y = 0;
+		while (str[i] && str[i] != ',')
+		{
+			if (y == 0 && str[i] == '0')
+			{
+				i++;
+				continue ;
+			}
+			color[y] = str[i];
+			y++;
+			i++;
+		}
+		color[y] = '\0';
+		if (y > 4 || ft_atoi(color) > 255 || ft_atoi(color) < 0)
+			return (write(STDERR_FILENO,
+					"Color RGB range is between 0 and 255\n", 37), 0);
+		ft_free(&color);
+		i++;
+		x++;
+	}
+	return (1);
+}
+
+int	color_missing_check(t_parsing *data, int ret)
+{
+	int	i;
+	int	x;
+
+	i = 0;
+	x = 0;
+	if (!ret)
+		return (0);
+	if (ft_isalnum(data->floor_color[i]))
+		x++;
+	while (data->floor_color[i])
+	{
+		if (data->floor_color[i] == ',' && ft_isalnum(data->floor_color[i + 1]))
+			x++;
+		i++;
+	}
+	if (x != 3)
+		return (write(STDERR_FILENO, "Invalid color\n", 14), 0);
+	i = 0;
+	x = 0;
+	if (ft_isalnum(data->ceiling_color[i]))
+		x++;
+	while (data->ceiling_color[i])
+	{
+		if (data->ceiling_color[i] == ',' && ft_isalnum(data->ceiling_color[i
+				+ 1]))
+			x++;
+		i++;
+	}
+	if (x != 3)
+		return (write(STDERR_FILENO, "Invalid color\n", 14), 0);
+	return (1);
+}
+
+int	remove_whitespace(char **str, int ret)
 {
 	int		i;
 	int		x;
@@ -184,8 +275,16 @@ int	remove_whitespace(char **str)
 
 	i = 0;
 	x = 0;
+	if (!ret)
+		return (ret);
+	if (!ft_isdigit((*str)[i]) && (*str)[i] != ' ')
+		return (write(STDERR_FILENO, "Non-digit symbol found in color\n", 32),
+			0);
 	while ((*str)[i])
 	{
+		if (!ft_isdigit((*str)[i]) && (*str)[i] != ',' && (*str)[i] != ' ')
+			return (write(STDERR_FILENO, "Non-digit symbol found in color\n",
+					32), 0);
 		if ((*str)[i] != ' ')
 			x++;
 		i++;
@@ -207,6 +306,49 @@ int	remove_whitespace(char **str)
 	*str = tmp;
 	return (1);
 }
+
+int	find_rgb_part(char *str, char **part, int *i)
+{
+	int	x;
+
+	x = *i;
+	while (str[x] && str[x] != ',')
+		x++;
+	*part = (char *)malloc(sizeof(char) * (x + 1));
+	x = 0;
+	while (str[*i] && str[*i] != ',')
+	{
+		(*part)[x] = str[*i];
+		(*i)++;
+		x++;
+	}
+	if (str[*i] == ',')
+		(*i)++;
+	(*part)[x] = '\0';
+	return (1);
+}
+
+int	set_hex_color(t_parsing *data, int ret)
+{
+	char	*r;
+	char	*g;
+	char	*b;
+	int		i;
+
+	i = 0;
+	if (!ret)
+		return (ret);
+	while (data->floor_color[i])
+	{
+		find_rgb_part(data->floor_color, &r, &i);
+		find_rgb_part(data->floor_color, &g, &i);
+		find_rgb_part(data->floor_color, &b, &i);
+	}
+	printf("%s %s %s\n", r, g, b);
+	return (1);
+	// rgb_to_hex(r, g, b);
+}
+
 int	tex_color_filled(t_parsing *data)
 {
 	int	ret;
@@ -228,17 +370,21 @@ int	tex_color_filled(t_parsing *data)
 		write(STDERR_FILENO, "Textures or colors not filled\n", 30);
 	if (ret == 1)
 	{
-		ret = remove_whitespace(&data->ceiling_color);
-		ret = remove_whitespace(&data->floor_color);
-		// ret = color_to_hex(data);
-		ret = check_tex_path(data);
+		ret = remove_whitespace(&data->ceiling_color, ret);
+		ret = remove_whitespace(&data->floor_color, ret);
+		ret = color_missing_check(data, ret);
+		ret = color_valid_check(data->ceiling_color, ret);
+		ret = color_valid_check(data->floor_color, ret);
+		ret = set_hex_color(data, ret);
+		ret = check_tex_path(data, ret);
 	}
 	return (ret);
 }
 
 int	read_file(t_parsing *data)
 {
-	char *gnl_output;
+	char	*gnl_output;
+
 	gnl_output = NULL;
 	data->map = ft_strdup("");
 	while (1)

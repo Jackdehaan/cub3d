@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/04 14:41:59 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/04 18:29:56 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ typedef struct t_parsing
 	int				fd_west_tex;
 	int				fd_east_tex;
 	char			*floor_color;
+	int				hex_floor;
 	char			*ceiling_color;
+	int				hex_ceiling;
 	int				player_position[2];
 	int				map_width;
 	int				map_height;
