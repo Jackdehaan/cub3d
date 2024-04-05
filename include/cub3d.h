@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/04 18:29:56 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
+/*   Updated: 2024/04/05 15:13:39 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@
 # define HEIGHT 1320
 # define BACKGROUND_COLOR 0x22222200
 
+
 typedef struct t_raycasting
 {
 	double			dir_y;
 	double			dir_x;
+	double			plane_y;
+	double			plane_x;
 }					t_raycasting;
+
 
 typedef enum TEX_COLOR
 {
