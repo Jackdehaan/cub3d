@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/04 18:29:52 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/08 15:36:54 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,16 +132,16 @@ int	check_if_tex_color_return(char *str)
 	return (ret_value);
 }
 
-int	xpm_file_check(char *str, int *fd)
+int	xpm_file_check(char *str, mlx_texture_t **tex)
 {
 	int		end;
-	char	dotmpx[] = "mpx.";
+	char	dotmpx[] = "gnp.";
 	int		x;
 
 	x = 0;
 	end = ft_strlen(str) - 1;
-	*fd = open(str, O_RDONLY);
-	if (*fd == -1)
+	*tex = mlx_load_png(str);
+	if (!*tex)
 		return (write(STDERR_FILENO, "One of the textures is invalid\n", 31),
 			0);
 	while (str[end] == dotmpx[x])
@@ -328,6 +328,11 @@ int	find_rgb_part(char *str, char **part, int *i)
 	return (1);
 }
 
+unsigned int	rgb_to_hex(int r, int g, int b)
+{
+	return (((unsigned int)r << 16) + ((unsigned int)g << 8) + (unsigned int)b);
+}
+
 int	set_hex_color(t_parsing *data, int ret)
 {
 	char	*r;
@@ -338,36 +343,56 @@ int	set_hex_color(t_parsing *data, int ret)
 	i = 0;
 	if (!ret)
 		return (ret);
-	while (data->floor_color[i])
-	{
-		find_rgb_part(data->floor_color, &r, &i);
-		find_rgb_part(data->floor_color, &g, &i);
-		find_rgb_part(data->floor_color, &b, &i);
-	}
-	printf("%s %s %s\n", r, g, b);
+	find_rgb_part(data->floor_color, &r, &i);
+	find_rgb_part(data->floor_color, &g, &i);
+	find_rgb_part(data->floor_color, &b, &i);
+	data->hex_floor = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	ft_free(&r);
+	ft_free(&g);
+	ft_free(&b);
+	i = 0;
+	find_rgb_part(data->ceiling_color, &r, &i);
+	find_rgb_part(data->ceiling_color, &g, &i);
+	find_rgb_part(data->ceiling_color, &b, &i);
+	data->hex_ceiling = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	ft_free(&r);
+	ft_free(&g);
+	ft_free(&b);
 	return (1);
-	// rgb_to_hex(r, g, b);
 }
 
+// int	rm_nl_map(char **str, int ret)
+// {
+// 	if (!ret)
+// 		return (ret);
+// 	int i = 0;
+// 	int found;
+// 	found = 0;
+// 	char *new;
+// }
+
+void	empty_check(t_parsing *data, int *ret)
+{
+	if (!data->path_north_tex)
+		*ret = 0;
+	if (!data->path_south_tex)
+		*ret = 0;
+	if (!data->path_west_tex)
+		*ret = 0;
+	if (!data->path_east_tex)
+		*ret = 0;
+	if (!data->floor_color)
+		*ret = 0;
+	if (!data->ceiling_color)
+		*ret = 0;
+	if (*ret == 0)
+		write(STDERR_FILENO, "Textures or colors not filled\n", 30);
+}
 int	tex_color_filled(t_parsing *data)
 {
 	int	ret;
 
 	ret = 1;
-	if (!data->path_north_tex)
-		ret = 0;
-	if (!data->path_south_tex)
-		ret = 0;
-	if (!data->path_west_tex)
-		ret = 0;
-	if (!data->path_east_tex)
-		ret = 0;
-	if (!data->floor_color)
-		ret = 0;
-	if (!data->ceiling_color)
-		ret = 0;
-	if (ret == 0)
-		write(STDERR_FILENO, "Textures or colors not filled\n", 30);
 	if (ret == 1)
 	{
 		ret = remove_whitespace(&data->ceiling_color, ret);
@@ -377,6 +402,7 @@ int	tex_color_filled(t_parsing *data)
 		ret = color_valid_check(data->floor_color, ret);
 		ret = set_hex_color(data, ret);
 		ret = check_tex_path(data, ret);
+		// ret = rm_nl_map(&data->map, ret);
 	}
 	return (ret);
 }
@@ -394,7 +420,7 @@ int	read_file(t_parsing *data)
 			break ;
 		if (!check_if_tex_color(data, gnl_output))
 			return (ft_free(&gnl_output), 0);
-		if (check_if_tex_color_return(gnl_output))
+		if (check_if_tex_color_return(gnl_output) && gnl_output[0] != '\n')
 			data->map = ft_strjoin_gnl(data->map, gnl_output);
 		ft_free(&gnl_output);
 	}

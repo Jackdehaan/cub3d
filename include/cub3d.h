@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/05 15:13:39 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/04/08 15:51:30 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # define HEIGHT 1320
 # define BACKGROUND_COLOR 0x22222200
 
-
 typedef struct t_raycasting
 {
 	double			dir_y;
@@ -34,7 +33,6 @@ typedef struct t_raycasting
 	double			plane_y;
 	double			plane_x;
 }					t_raycasting;
-
 
 typedef enum TEX_COLOR
 {
@@ -55,14 +53,14 @@ typedef struct t_parsing
 	char			*path_south_tex;
 	char			*path_west_tex;
 	char			*path_east_tex;
-	int				fd_north_tex;
-	int				fd_south_tex;
-	int				fd_west_tex;
-	int				fd_east_tex;
+	mlx_texture_t	*fd_north_tex;
+	mlx_texture_t	*fd_south_tex;
+	mlx_texture_t	*fd_west_tex;
+	mlx_texture_t	*fd_east_tex;
 	char			*floor_color;
-	int				hex_floor;
+	unsigned int	hex_floor;
 	char			*ceiling_color;
-	int				hex_ceiling;
+	unsigned int	hex_ceiling;
 	int				player_position[2];
 	int				map_width;
 	int				map_height;
@@ -81,6 +79,7 @@ int					read_file(t_parsing *data);
 int					check_map(t_parsing *data);
 int					init_map(t_parsing *data);
 int					set_ray_struct(t_parsing *data);
+int					valid_map(t_parsing *data);
 
 /*
 UTILS
