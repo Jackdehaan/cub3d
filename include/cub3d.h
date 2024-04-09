@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/08 15:51:30 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
+/*   Updated: 2024/04/09 15:09:35 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define WIDTH 1320
 # define HEIGHT 1320
 # define BACKGROUND_COLOR 0x22222200
+# define MOV_SPEED 1
+# define ROT_SPEED 0.1
 
 typedef struct t_raycasting
 {
@@ -61,7 +63,7 @@ typedef struct t_parsing
 	unsigned int	hex_floor;
 	char			*ceiling_color;
 	unsigned int	hex_ceiling;
-	int				player_position[2];
+	double				player_position[2];
 	int				map_width;
 	int				map_height;
 	int				**map_flood;

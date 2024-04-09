@@ -6,11 +6,12 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:51:25 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/04/05 15:10:29 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:10:31 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
 void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, int color)
 {
 	int		dx;
@@ -182,7 +183,7 @@ void	render_cube(t_parsing *data)
 	int		x;
 	int		mapX;
 	int		mapY;
-	int		posY;
+	double		posY;
 	double	sideDistX;
 	double	sideDistY;
 	double	deltaDistX;
@@ -205,11 +206,13 @@ void	render_cube(t_parsing *data)
 
 	posX = data->player_position[1];
 	posY = data->player_position[0];
+	printf("y pos == %f | x pos == %f\n",data->player_position[0], data->player_position[1]);
+	printf("current object %d\n", data->map_flood[(int)posY][(int)posX]);
 	dirX = data->raycasting->dir_x;
 	dirY = data->raycasting->dir_y;
 	planeX = data->raycasting->plane_x;
 	planeY = data->raycasting->plane_y;	
-	printf("%f | %f | %f | %f\n", dirX, dirY, planeX, planeY);
+	// printf("%f | %f | %f | %f | %d | %f\n", dirX, dirY, planeX, planeY, posY, posX);
 	x = 0;
 	while (x < WIDTH)
 	{
