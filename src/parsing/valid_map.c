@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/08 15:28:43 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/08 16:59:09 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/11 15:14:54 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ bool	check_if_start_pos(t_parsing *data)
 	return (found_starting_pos);
 }
 
-int	check_start_pos(t_parsing *data)
-{
-	if (!check_if_start_pos(data))
-		return (0);
-	return (1);
-}
 
 int	valid_char(char c)
 {
@@ -73,7 +67,7 @@ int	valid_map(t_parsing *data)
 {
 	if (!invalid_char(data))
 		return (0);
-	if (!check_start_pos(data))
+	if (!check_if_start_pos(data))
 		return (0);
 	return (1);
 }

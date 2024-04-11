@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/08 15:36:54 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/11 15:18:53 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ char	*skip_spaces(char *str)
 	return (ft_strndup(str + i, nl - i));
 }
 
-int	set_data(t_parsing *data, TEX_COLOR found, char *str)
+int	set_data(t_parsing *data, TEX_COLOR found, char *str, bool *found_start,
+		bool *found_end)
 {
 	bool	already_exists;
 
+	if (*found_start && !*found_end)
+	{
+		*found_end = true;
+	}
 	already_exists = false;
 	if (found == NO)
 	{
@@ -90,24 +95,25 @@ int	set_data(t_parsing *data, TEX_COLOR found, char *str)
 	return (1);
 }
 
-int	check_if_tex_color(t_parsing *data, char *str)
+int	check_if_tex_color(t_parsing *data, char *str, bool *found_start,
+		bool *found_end)
 {
 	int	ret_value;
 
 	ret_value = 1;
 	str = skip_spaces(str);
 	if (!ft_strncmp(str, "NO ", 3))
-		ret_value = set_data(data, NO, str + 3);
+		ret_value = set_data(data, NO, str + 3, found_start, found_end);
 	else if (!ft_strncmp(str, "SO ", 3))
-		ret_value = set_data(data, SO, str + 3);
+		ret_value = set_data(data, SO, str + 3, found_start, found_end);
 	else if (!ft_strncmp(str, "WE ", 3))
-		ret_value = set_data(data, WE, str + 3);
+		ret_value = set_data(data, WE, str + 3, found_start, found_end);
 	else if (!ft_strncmp(str, "EA ", 3))
-		ret_value = set_data(data, EA, str + 3);
+		ret_value = set_data(data, EA, str + 3, found_start, found_end);
 	else if (!ft_strncmp(str, "F ", 2))
-		ret_value = set_data(data, F, str + 2);
+		ret_value = set_data(data, F, str + 2, found_start, found_end);
 	else if (!ft_strncmp(str, "C ", 2))
-		ret_value = set_data(data, C, str + 2);
+		ret_value = set_data(data, C, str + 2, found_start, found_end);
 	return (ret_value);
 }
 
@@ -140,10 +146,6 @@ int	xpm_file_check(char *str, mlx_texture_t **tex)
 
 	x = 0;
 	end = ft_strlen(str) - 1;
-	*tex = mlx_load_png(str);
-	if (!*tex)
-		return (write(STDERR_FILENO, "One of the textures is invalid\n", 31),
-			0);
 	while (str[end] == dotmpx[x])
 	{
 		x++;
@@ -151,11 +153,17 @@ int	xpm_file_check(char *str, mlx_texture_t **tex)
 	}
 	if (x != 4)
 	{
-		write(STDERR_FILENO, "One or more textures aren't .xpm files\n", 39);
+		write(STDERR_FILENO, "One or more textures aren't .png files\n", 39);
 		return (0);
 	}
 	else
+	{
+		*tex = mlx_load_png(str);
+		if (!*tex)
+			return (write(STDERR_FILENO, "One of the textures is invalid\n",
+					31), 0);
 		return (1);
+	}
 }
 
 int	check_tex_path(t_parsing *data, int ret)
@@ -407,9 +415,67 @@ int	tex_color_filled(t_parsing *data)
 	return (ret);
 }
 
+int	map_char(char c)
+{
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
+		|| c == 'E');
+}
+
+char	*trim_spaces_from_end(char *line)
+{
+	char	*trimmed;
+	int		i;
+
+	i = ft_strlen(line) - 1;
+	while (i >= 0)
+	{
+		if (map_char(line[i]))
+		{
+			break ;
+		}
+		if (!map_char(line[i]) && line[i] != ' ' && line[i] != '\n')
+		{
+			write(STDERR_FILENO, "Found a non-map character in your map.\n",
+				39);
+			exit(EXIT_FAILURE);
+		}
+		i--;
+	}
+	if (i == -1)
+		return (NULL);
+	trimmed = ft_strndup(line, i + 1);
+	trimmed = ft_strjoin_gnl(trimmed, "\n");
+	return (trimmed);
+}
+
+void	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
+		bool *found_end)
+{
+	char	*trim;
+
+	trim = trim_spaces_from_end(gnl_output);
+	if (trim)
+	{
+		if (*found_end)
+		{
+			write(STDERR_FILENO, "Found empty line in map\n", 24);
+			exit(EXIT_FAILURE);
+		}
+		*found_start = true;
+	}
+	else if (*found_start)
+	{
+		*found_end = true;
+		return ;
+	}
+	data->map = ft_strjoin_gnl(data->map, trim);
+}
+
 int	read_file(t_parsing *data)
 {
-	char	*gnl_output;
+	char		*gnl_output;
+	static bool	found_start;
+	static bool	found_end;
 
 	gnl_output = NULL;
 	data->map = ft_strdup("");
@@ -418,10 +484,10 @@ int	read_file(t_parsing *data)
 		gnl_output = get_next_line(data->file_fd);
 		if (!gnl_output)
 			break ;
-		if (!check_if_tex_color(data, gnl_output))
+		if (!check_if_tex_color(data, gnl_output, &found_start, &found_end))
 			return (ft_free(&gnl_output), 0);
-		if (check_if_tex_color_return(gnl_output) && gnl_output[0] != '\n')
-			data->map = ft_strjoin_gnl(data->map, gnl_output);
+		if (check_if_tex_color_return(gnl_output))
+			gnl_to_map(gnl_output, data, &found_start, &found_end);
 		ft_free(&gnl_output);
 	}
 	ft_free(&gnl_output);
