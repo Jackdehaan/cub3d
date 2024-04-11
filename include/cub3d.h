@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/09 15:09:35 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:04:29 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@
 # define WIDTH 1320
 # define HEIGHT 1320
 # define BACKGROUND_COLOR 0x22222200
-# define MOV_SPEED 1
+# define MOV_SPEED 0.1
 # define ROT_SPEED 0.1
+#define TEX_WIDTH 64
+#define TEX_HEIGHT 64
 
 typedef struct t_raycasting
 {
