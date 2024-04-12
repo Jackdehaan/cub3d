@@ -6,20 +6,30 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:51:25 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/04/11 15:44:55 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:52:45 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-struct mlx_texture *choose_texture(double y, double x)
+struct mlx_texture	*choose_texture(t_parsing *data, double y, double x,
+		int side)
 {
-	(void)x;
+	(void)data;
 	(void)y;
-	// if (y > 0)
-	// 	printf("north\n");
-	// else
-	// 	printf("else\n");
+	(void)x;
+	if (side == 0)
+	{
+		if (x > 0)
+			return(data->fd_east_tex);
+		return (data->fd_west_tex);
+	}
+	else if (side == 1)
+	{
+		if (y < 0)
+			return (data->fd_north_tex);
+		return (data->fd_south_tex);
+	}
 	return(NULL);
 }
 
@@ -33,9 +43,12 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, u_int32_t *colors)
 	float	Y;
 	int		i;
 	int		extra;
-	int y_begin = 0;
-	int x_begin = 0;
+	int		y_begin;
+	int		x_begin;
+	int		test;
 
+	y_begin = 0;
+	x_begin = 0;
 	extra = 0;
 	dx = X1 - X0;
 	dy = Y1 - Y0;
@@ -47,16 +60,17 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, u_int32_t *colors)
 	{
 		steps = abs(dy);
 	}
-	int test = 0;
+	test = 0;
 	x_begin = X0;
 	while (test < Y0)
 	{
 		if (X0 > 0 && X0 < WIDTH && Y0 > 0 && Y0 < HEIGHT)
 		{
-			mlx_put_pixel(data->image, round(x_begin), round(y_begin), data->hex_ceiling);
+			mlx_put_pixel(data->image, round(x_begin), round(y_begin),
+				data->hex_ceiling);
 		}
 		y_begin++;
-			test++;
+		test++;
 	}
 	test = Y1;
 	y_begin = Y1;
@@ -64,10 +78,11 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, u_int32_t *colors)
 	{
 		if (X0 > 0 && X0 < WIDTH && Y0 > 0 && Y0 < HEIGHT)
 		{
-			mlx_put_pixel(data->image, round(x_begin), round(y_begin), data->hex_floor);
+			mlx_put_pixel(data->image, round(x_begin), round(y_begin),
+				data->hex_floor);
 		}
 		y_begin++;
-			test++;
+		test++;
 	}
 	// float Xinc = dx / (float)steps;
 	Yinc = dy / (float)steps;
@@ -90,40 +105,50 @@ void	dda(t_parsing *data, int X0, int Y0, int X1, int Y1, u_int32_t *colors)
 
 void	render_cube(t_parsing *data)
 {
-	double rayDirX;
-	double rayDirY;
-	double planeX;
-	double planeY;
-	double cameraX;
-	int x;
-	int mapX;
-	int mapY;
-	double posY;
-	double sideDistX;
-	double sideDistY;
-	double deltaDistX;
-	double deltaDistY;
-	double posX;
-	double dirX;
-	double dirY;
-	double perpWallDist;
-	int stepX;
-	int stepY;
-	int hit;
-	int side;
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-	int x0;
-	int y0;
-	int x1;
-	int texNum;
-	u_int32_t colors[5000];
-	int y1;
-	int pitch;
-	int i;
-	pitch = 100;
+	double				rayDirX;
+	double				rayDirY;
+	double				planeX;
+	double				planeY;
+	double				cameraX;
+	int					x;
+	int					mapX;
+	int					mapY;
+	double				posY;
+	double				sideDistX;
+	double				sideDistY;
+	double				deltaDistX;
+	double				deltaDistY;
+	double				posX;
+	double				dirX;
+	double				dirY;
+	double				perpWallDist;
+	int					stepX;
+	int					stepY;
+	int					hit;
+	int					side;
+	int					lineHeight;
+	int					drawStart;
+	int					drawEnd;
+	int					x0;
+	int					y0;
+	int					x1;
+	int					texNum;
+	u_int32_t			colors[5000];
+	int					y1;
+	int					pitch;
+	int					i;
+	int					texX;
+	double				step;
+	double				texPos;
+	int					texY;
+	struct mlx_texture	*tex;
+	int					texelIndex;
+	uint8_t				red;
+	uint8_t				green;
+	uint8_t				blue;
+	uint8_t				alpha;
 
+	pitch = 100;
 	posX = data->player_position[1];
 	posY = data->player_position[0];
 	// printf("y pos == %f | x pos == %f\n", data->player_position[0],
@@ -199,23 +224,20 @@ void	render_cube(t_parsing *data)
 		if (drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
 		texNum = data->map_flood[mapY][mapX] - 1;
-
 		double wallX; // where exactly the wall was hit
 		if (side == 0)
 			wallX = posY + perpWallDist * rayDirY;
 		else
 			wallX = posX + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
-
-		int texX = (int)(wallX * (double)TEX_WIDTH);
+		texX = (int)(wallX * (double)TEX_WIDTH);
 		if (side == 0 && rayDirX > 0)
 			texX = TEX_WIDTH - texX - 1;
 		if (side == 1 && rayDirY < 0)
 			texX = TEX_WIDTH - texX - 1;
-		double step = 1.0 * TEX_HEIGHT / lineHeight;
+		step = 1.0 * TEX_HEIGHT / lineHeight;
 		// Starting texture coordinate
-		double texPos = (drawStart - pitch - HEIGHT / 2 + lineHeight / 2)
-			* step;
+		texPos = (drawStart - pitch - HEIGHT / 2 + lineHeight / 2) * step;
 		i = 0;
 		// for (int iets = 0; iets < drawStart; iets++)
 		// {
@@ -223,22 +245,21 @@ void	render_cube(t_parsing *data)
 		// 	i++;
 		// }
 		// printf("i == %d\n", i);
+		tex = choose_texture(data, rayDirY, rayDirX, side);
+		// printf("%d | %d\n",rayDirY, rayDirX);
 		for (int y = drawStart; y < drawEnd; y++)
 		{
-			int texY = (int)texPos & (TEX_HEIGHT - 1);
+			texY = (int)texPos & (TEX_HEIGHT - 1);
 			texPos += step;
-			choose_texture(rayDirY, rayDirX);
 			if (texX >= 0 && texX < TEX_WIDTH && texY >= 0 && texY < TEX_HEIGHT)
 			{
-				int texelIndex = (TEX_WIDTH * texY + texX) * 4;
+				texelIndex = (TEX_WIDTH * texY + texX) * 4;
 				// Multiply by 4 for 4-byte texels (RGBA format)
-
 				// Retrieve the texel from the texture array
-				uint8_t red = data->fd_east_tex->pixels[texelIndex];
-				uint8_t green = data->fd_east_tex->pixels[texelIndex + 1];
-				uint8_t blue = data->fd_east_tex->pixels[texelIndex + 2];
-				uint8_t alpha = data->fd_east_tex->pixels[texelIndex + 3];
-
+				red = tex->pixels[texelIndex];
+				green = tex->pixels[texelIndex + 1];
+				blue = tex->pixels[texelIndex + 2];
+				alpha = tex->pixels[texelIndex + 3];
 				// Combine the color components into a single 4-byte color value
 				colors[i] = (red << 24) | (green << 16) | (blue << 8) | alpha;
 				// colors[i] = (alpha << 24) | (red << 16) | (green << 8) | blue;
@@ -267,7 +288,6 @@ void	render_cube(t_parsing *data)
 		// 		printf("\n");
 		// }
 		// exit(EXIT_FAILURE);
-
 		x0 = x;
 		y0 = drawStart;
 		x1 = x;
@@ -278,7 +298,6 @@ void	render_cube(t_parsing *data)
 		{
 			colors[index] = 0;
 		}
-
 		x++;
 	}
 	// exit(EXIT_FAILURE);

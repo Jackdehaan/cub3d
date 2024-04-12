@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/11 16:04:29 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:58:12 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define BACKGROUND_COLOR 0x22222200
 # define MOV_SPEED 0.1
 # define ROT_SPEED 0.1
-#define TEX_WIDTH 64
-#define TEX_HEIGHT 64
+# define TEX_WIDTH 64
+# define TEX_HEIGHT 64
 
 typedef struct t_raycasting
 {
@@ -65,7 +65,9 @@ typedef struct t_parsing
 	unsigned int	hex_floor;
 	char			*ceiling_color;
 	unsigned int	hex_ceiling;
-	double				player_position[2];
+	double			player_position[2];
+	int				player_direction;
+
 	int				map_width;
 	int				map_height;
 	int				**map_flood;
@@ -84,6 +86,9 @@ int					check_map(t_parsing *data);
 int					init_map(t_parsing *data);
 int					set_ray_struct(t_parsing *data);
 int					valid_map(t_parsing *data);
+
+void				rotate_left(t_parsing *data, double rot_speed);
+void				rotate_right(t_parsing *data, double rot_speed);
 
 /*
 UTILS

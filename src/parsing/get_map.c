@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:33:44 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/04/11 15:52:21 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:59:52 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int	set_value(char value, t_parsing *data, int y, int x)
 		return (2);
 	else if (value == 'N' || value == 'E' || value == 'S' || value == 'W')
 	{
-		data->player_position[0] = y + 1;
-		data->player_position[1] = x + 1;
+			data->player_direction = value;
+		data->player_position[0] = y;
+		data->player_position[1] = x;
+		printf("value %c\n",value);
 		return (0);
 	}
 	else

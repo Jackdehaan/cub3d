@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:10:48 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/11 15:44:28 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:55:40 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,40 @@ int	is_valid_move(double x, double y, t_parsing *data)
 		return (0);
 	}
 	return (1);
+}
+
+void	rotate_left(t_parsing *data, double rot_speed)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = data->raycasting->dir_x;
+	data->raycasting->dir_x = data->raycasting->dir_x * cos(-rot_speed)
+		- data->raycasting->dir_y * sin(-rot_speed);
+	data->raycasting->dir_y = old_dir_x * sin(-rot_speed)
+		+ data->raycasting->dir_y * cos(-rot_speed);
+	old_plane_x = data->raycasting->plane_x;
+	data->raycasting->plane_x = data->raycasting->plane_x * cos(-rot_speed)
+		- data->raycasting->plane_y * sin(-rot_speed);
+	data->raycasting->plane_y = old_plane_x * sin(-rot_speed)
+		+ data->raycasting->plane_y * cos(-rot_speed);
+}
+
+void	rotate_right(t_parsing *data, double rot_speed)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = data->raycasting->dir_x;
+	data->raycasting->dir_x = data->raycasting->dir_x * cos(rot_speed)
+		- data->raycasting->dir_y * sin(rot_speed);
+	data->raycasting->dir_y = old_dir_x * sin(rot_speed)
+		+ data->raycasting->dir_y * cos(rot_speed);
+	old_plane_x = data->raycasting->plane_x;
+	data->raycasting->plane_x = data->raycasting->plane_x * cos(rot_speed)
+		- data->raycasting->plane_y * sin(rot_speed);
+	data->raycasting->plane_y = old_plane_x * sin(rot_speed)
+		+ data->raycasting->plane_y * cos(rot_speed);
 }
 
 void	reset_map(t_parsing *data)
@@ -59,9 +93,12 @@ void	reset_map(t_parsing *data)
 // 		printf("false 1 %f | %f\n", x, y);
 // 		return (0);
 // 	}
-// 	if (data->map_flood[(int)round(y + MOV_SPEED)][(int)round(x + MOV_SPEED)] == 1
-// 		|| data->map_flood[(int)round(y)][(int)round(x)] == 1 || data->map_flood[(int)round(y
-// 			+ MOV_SPEED / 2)][(int)round(x + MOV_SPEED / 2)] == 1 || data->map_flood[(int)round(y
+// 	if (data->map_flood[(int)round(y + MOV_SPEED)][(int)round(x
+// + MOV_SPEED)] == 1
+// 		|| data->map_flood[(int)round(y)][(int)round(x)] == 1
+// || data->map_flood[(int)round(y
+// 			+ MOV_SPEED / 2)][(int)round(x + MOV_SPEED / 2)] == 1
+// || data->map_flood[(int)round(y
 // 			+ MOV_SPEED * 2)][(int)round(x + (MOV_SPEED * 2))] == 1)
 // 	{
 // 		printf("false 2 %f | %f\n", x, y);
@@ -78,8 +115,6 @@ double	calculateAngle(double dir_y, double dir_x)
 void	keys_loop(void *param)
 {
 	t_parsing	*data;
-	double		oldDirX;
-	double		oldPlaneX;
 	int			**map;
 	int			y;
 	int			x;
@@ -160,31 +195,9 @@ void	keys_loop(void *param)
 	// printf("%d | %d | %d | %d\n", data->player_position[0],
 	// 	data->player_position[1], data->map_height, data->map_width);
 	if (mlx_is_key_down(data->window, MLX_KEY_LEFT))
-	{
-		oldDirX = data->raycasting->dir_x;
-		data->raycasting->dir_x = data->raycasting->dir_x * cos(-ROT_SPEED)
-			- data->raycasting->dir_y * sin(-ROT_SPEED);
-		data->raycasting->dir_y = oldDirX * sin(-ROT_SPEED)
-			+ data->raycasting->dir_y * cos(-ROT_SPEED);
-		oldPlaneX = data->raycasting->plane_x;
-		data->raycasting->plane_x = data->raycasting->plane_x * cos(-ROT_SPEED)
-			- data->raycasting->plane_y * sin(-ROT_SPEED);
-		data->raycasting->plane_y = oldPlaneX * sin(-ROT_SPEED)
-			+ data->raycasting->plane_y * cos(-ROT_SPEED);
-	}
+		rotate_left(data, ROT_SPEED);
 	if (mlx_is_key_down(data->window, MLX_KEY_RIGHT))
-	{
-		oldDirX = data->raycasting->dir_x;
-		data->raycasting->dir_x = data->raycasting->dir_x * cos(ROT_SPEED)
-			- data->raycasting->dir_y * sin(ROT_SPEED);
-		data->raycasting->dir_y = oldDirX * sin(ROT_SPEED)
-			+ data->raycasting->dir_y * cos(ROT_SPEED);
-		oldPlaneX = data->raycasting->plane_x;
-		data->raycasting->plane_x = data->raycasting->plane_x * cos(ROT_SPEED)
-			- data->raycasting->plane_y * sin(ROT_SPEED);
-		data->raycasting->plane_y = oldPlaneX * sin(ROT_SPEED)
-			+ data->raycasting->plane_y * cos(ROT_SPEED);
-	}
+		rotate_right(data, ROT_SPEED);
 	// printf("atan == %f |", calculateAngle(data->raycasting->dir_x,
 	// 		data->raycasting->dir_y));
 	reset_map(data);
