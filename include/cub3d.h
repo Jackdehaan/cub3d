@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/12 17:58:12 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/04/15 12:55:56 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "MLX42.h"
 # include "libft.h"
 # include <fcntl.h>
-// # include "MLX42.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -67,7 +66,6 @@ typedef struct t_parsing
 	unsigned int	hex_ceiling;
 	double			player_position[2];
 	int				player_direction;
-
 	int				map_width;
 	int				map_height;
 	int				**map_flood;
@@ -96,7 +94,7 @@ UTILS
 void				ft_free(char **buffer);
 char				*ft_strndup(char *s, size_t n);
 void				print_tex_color(t_parsing *data);
-
+void				free_data(t_parsing *data);
 void				render_cube(t_parsing *data);
 
 #endif

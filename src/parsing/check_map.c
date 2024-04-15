@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 14:46:33 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/04/11 15:47:36 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   check_map.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/31 14:46:33 by jade-haa      #+#    #+#                 */
+/*   Updated: 2024/04/15 15:46:45 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,12 @@ int	check_map(t_parsing *data)
 		while (x < data->map_width)
 		{
 			if (!check_if_valid(data, data->map_flood, y, x))
-			{
-				printf("fout");
-				ft_strdup("sadfsad");
-				return (0);
-			}
+				return (free_data(data), write(STDERR_FILENO,
+						"Map not closed\n", 15), 0);
 			x++;
 		}
 		y++;
 	}
-	printf("%d | %d", data->map_height, data->map_width);
+	// printf("%d | %d", data->map_height, data->map_width);
 	return (1);
 }

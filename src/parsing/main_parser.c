@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:45:51 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/08 17:09:46 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/15 15:46:59 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,11 @@ int	parsing(char *file, t_parsing *data)
 		return (0);
 	if (!valid_map(data))
 		return(0);
-	if (!init_mlx(data))
-		return(0);
+	// if (!init_mlx(data))
+	// 	return(0);
 	if (!init_map(data))
 		return(0);
 	if (!check_map(data))
 		return(0);
-	
 	return (1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:10:48 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/04/12 17:55:40 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:10:48 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/04/15 15:45:52 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,58 @@
 
 int	is_valid_move(double x, double y, t_parsing *data)
 {
-	// printf("%d | %d\n", data->map_width, data->map_height);
-	if ((int)x < 0 || (int)y < 0 || (int)x >= data->map_width
-		|| (int)y >= data->map_height)
+	printf("%f | %f | %d | %d\n", x, y, data->map_width, data->map_height);
+	if ((int)x - 1 <= 0 || (int)y - 1 <= 0 || (int)x + 1 >= data->map_width - 2
+		|| (int)y + 1 >= data->map_height - 2)
 	{
 		printf("false 1 %f | %f\n", x, y);
 		return (0);
 	}
-	if (data->map_flood[(int)round(y + MOV_SPEED)][(int)round(x + MOV_SPEED)] == 1
-		|| data->map_flood[(int)round(y)][(int)round(x)] == 1 || data->map_flood[(int)round(y
-			+ MOV_SPEED / 2)][(int)round(x + MOV_SPEED / 2)] == 1 || data->map_flood[(int)round(y
-			+ MOV_SPEED * 2)][(int)round(x + (MOV_SPEED * 2))] == 1)
-	{
-		printf("false 2 %f | %f\n", x, y);
-		return (0);
-	}
+	if (data->map_flood[(int)y][(int)x] == 1)
+		return (write(1, "1", 1), 0);
+	if (data->map_flood[(int)(y + (MOV_SPEED * 2))][(int)x] == 1)
+		return (write(1, "2", 1), 0);
+	if (data->map_flood[(int)y][(int)(x + (MOV_SPEED * 2))] == 1)
+		return (write(1, "3", 1), 0);
+	if (data->map_flood[(int)(y + (MOV_SPEED * 2))][(int)(x + (MOV_SPEED
+				* 2))] == 1)
+		return (write(1, "4", 1), 0);
+	if (data->map_flood[(int)(y - (MOV_SPEED))][(int)(x - (MOV_SPEED))] == 1)
+		return (write(1, "5", 1), 0);
+	if (data->map_flood[(int)(y - (MOV_SPEED))][(int)((x) - (MOV_SPEED))] == 1)
+		return (write(1, "6", 1), 0);
+	if (data->map_flood[(int)((y) - (MOV_SPEED))][(int)(x - (MOV_SPEED))] == 1)
+		return (write(1, "7", 1), 0);
+	// if (data->map_flood[(int)((y + 1) - (MOV_SPEED * 3))][(int)((x + 1)
+	// 		- (MOV_SPEED * 4))] == 1)
+	// 	return (write(1, "8", 1), 0);
+	// if (data->map_flood[(int)y][(int)(x + (MOV_SPEED * 2))] == 1)
+	// 	return (write(1, "5", 1), 0);
+	if (data->map_flood[(int)y][(int)x] == 1)
+		return (write(1, "8", 1), 0);
+	// if (data->map_flood[(int)round((y) + MOV_SPEED)][(int)round((x)
+	// 		+ MOV_SPEED)] == 1 || data->map_flood[(int)round((y + 0.5)
+	// 		+ MOV_SPEED)][(int)round((x + 0.5))] || data->map_flood[(int)round(y
+	// 		+ MOV_SPEED / 2)][(int)round(x + MOV_SPEED / 2)] == 1
+	// 	|| data->map_flood[(int)round(y + MOV_SPEED * 2)][(int)round(x
+	// 		+ (MOV_SPEED * 2))] == 1)
+	// {
+	// 	printf("false 2 %f | %f\n", x, y);
+	// 	printf("block %d\n", data->map_flood[(int)round(y)][(int)round(x)]);
+	// 	return (0);
+	// }
+	// 	if (data->map_flood[(int)round((y) - MOV_SPEED)][(int)round((x)
+	// 		- MOV_SPEED)] == 1 || data->map_flood[(int)round((y - 1.5)
+	// 		- MOV_SPEED)][(int)round((x - 1.5))] || data->map_flood[(int)round(y
+	// 		- MOV_SPEED / 2)][(int)round(x - MOV_SPEED / 1.5)] == 1
+	// 	|| data->map_flood[(int)round(y - MOV_SPEED * 1.5)][(int)round(x
+	// 		- (MOV_SPEED * 2))] == 1)
+	// {
+	// 	printf("false 3 %f | %f\n", x, y);
+	// 	printf("block %d\n", data->map_flood[(int)round(y)][(int)round(x)]);
+	// 	return (0);
+	// }
+	printf("block %d\n", data->map_flood[(int)round(y)][(int)round(x)]);
 	return (1);
 }
 
@@ -211,14 +248,15 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		if (!parsing(av[1], &data))
-			return (1);
-		if (!set_ray_struct(&data))
-			return (0);
-		mlx_loop_hook(data.window, keys_loop, &data);
-		mlx_loop(data.window);
-		mlx_terminate(data.window);
+			return (EXIT_FAILURE);
+		// if (!set_ray_struct(&data))
+		// 	return (EXIT_FAILURE);
+		// mlx_loop_hook(data.window, keys_loop, &data);
+		// mlx_loop(data.window);
+		// mlx_terminate(data.window);
+		free_data(&data);
 	}
 	else
-		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21), 1);
-	return (0);
+		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

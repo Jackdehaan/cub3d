@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/08 15:28:43 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/11 15:14:54 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/15 13:57:32 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int	invalid_char(t_parsing *data)
 	while (data->map[i])
 	{
 		if (!valid_char(data->map[i]))
-			return (write(STDERR_FILENO, "Invalid input inside map\n", 25), 0);
+			return (free_data(data), write(STDERR_FILENO, "Invalid input inside map\n", 25), 0);
 		if (data->map[i] == '0')
 			found_zero = true;
 		i++;
 	}
 	if (!found_zero)
-		return (write(STDERR_FILENO, "Map is too small\n", 17), 0);
+		return (free_data(data), write(STDERR_FILENO, "Map is too small\n", 17), 0);
 	return (1);
 }
 
@@ -68,6 +68,6 @@ int	valid_map(t_parsing *data)
 	if (!invalid_char(data))
 		return (0);
 	if (!check_if_start_pos(data))
-		return (0);
+		return (free_data(data), 0);
 	return (1);
 }

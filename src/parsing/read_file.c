@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/11 15:18:53 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/15 15:53:14 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,43 +98,57 @@ int	set_data(t_parsing *data, TEX_COLOR found, char *str, bool *found_start,
 int	check_if_tex_color(t_parsing *data, char *str, bool *found_start,
 		bool *found_end)
 {
-	int	ret_value;
+	int		ret_value;
+	char	*no_spaces_str;
 
 	ret_value = 1;
-	str = skip_spaces(str);
-	if (!ft_strncmp(str, "NO ", 3))
-		ret_value = set_data(data, NO, str + 3, found_start, found_end);
-	else if (!ft_strncmp(str, "SO ", 3))
-		ret_value = set_data(data, SO, str + 3, found_start, found_end);
-	else if (!ft_strncmp(str, "WE ", 3))
-		ret_value = set_data(data, WE, str + 3, found_start, found_end);
-	else if (!ft_strncmp(str, "EA ", 3))
-		ret_value = set_data(data, EA, str + 3, found_start, found_end);
-	else if (!ft_strncmp(str, "F ", 2))
-		ret_value = set_data(data, F, str + 2, found_start, found_end);
-	else if (!ft_strncmp(str, "C ", 2))
-		ret_value = set_data(data, C, str + 2, found_start, found_end);
+	no_spaces_str = skip_spaces(str);
+	if (!no_spaces_str)
+		return (0);
+	if (!ft_strncmp(no_spaces_str, "NO ", 3))
+		ret_value = set_data(data, NO, no_spaces_str + 3, found_start,
+				found_end);
+	else if (!ft_strncmp(no_spaces_str, "SO ", 3))
+		ret_value = set_data(data, SO, no_spaces_str + 3, found_start,
+				found_end);
+	else if (!ft_strncmp(no_spaces_str, "WE ", 3))
+		ret_value = set_data(data, WE, no_spaces_str + 3, found_start,
+				found_end);
+	else if (!ft_strncmp(no_spaces_str, "EA ", 3))
+		ret_value = set_data(data, EA, no_spaces_str + 3, found_start,
+				found_end);
+	else if (!ft_strncmp(no_spaces_str, "F ", 2))
+		ret_value = set_data(data, F, no_spaces_str + 2, found_start,
+				found_end);
+	else if (!ft_strncmp(no_spaces_str, "C ", 2))
+		ret_value = set_data(data, C, no_spaces_str + 2, found_start,
+				found_end);
+	ft_free(&no_spaces_str);
 	return (ret_value);
 }
 
 int	check_if_tex_color_return(char *str)
 {
-	int	ret_value;
+	int		ret_value;
+	char	*no_spaces_str;
 
 	ret_value = 1;
-	str = skip_spaces(str);
-	if (!ft_strncmp(str, "NO ", 3))
+	no_spaces_str = skip_spaces(str);
+	if (!str)
+		return (0);
+	if (!ft_strncmp(no_spaces_str, "NO ", 3))
 		ret_value = 0;
-	else if (!ft_strncmp(str, "SO ", 3))
+	else if (!ft_strncmp(no_spaces_str, "SO ", 3))
 		ret_value = 0;
-	else if (!ft_strncmp(str, "WE ", 3))
+	else if (!ft_strncmp(no_spaces_str, "WE ", 3))
 		ret_value = 0;
-	else if (!ft_strncmp(str, "EA ", 3))
+	else if (!ft_strncmp(no_spaces_str, "EA ", 3))
 		ret_value = 0;
-	else if (!ft_strncmp(str, "F ", 2))
+	else if (!ft_strncmp(no_spaces_str, "F ", 2))
 		ret_value = 0;
-	else if (!ft_strncmp(str, "C ", 2))
+	else if (!ft_strncmp(no_spaces_str, "C ", 2))
 		ret_value = 0;
+	ft_free(&no_spaces_str);
 	return (ret_value);
 }
 
@@ -231,7 +245,7 @@ int	color_valid_check(char *str, int ret)
 		}
 		color[y] = '\0';
 		if (y > 4 || ft_atoi(color) > 255 || ft_atoi(color) < 0)
-			return (write(STDERR_FILENO,
+			return (ft_free(&color), write(STDERR_FILENO,
 					"Color RGB range is between 0 and 255\n", 37), 0);
 		ft_free(&color);
 		i++;
@@ -286,8 +300,7 @@ int	remove_whitespace(char **str, int ret)
 	if (!ret)
 		return (ret);
 	if (!ft_isdigit((*str)[i]) && (*str)[i] != ' ')
-		return (write(STDERR_FILENO, "Non-digit symbol found in color\n", 32),
-			0);
+		return (write(STDERR_FILENO, "Found comma at the start\n", 25), 0);
 	while ((*str)[i])
 	{
 		if (!ft_isdigit((*str)[i]) && (*str)[i] != ',' && (*str)[i] != ' ')
@@ -323,6 +336,8 @@ int	find_rgb_part(char *str, char **part, int *i)
 	while (str[x] && str[x] != ',')
 		x++;
 	*part = (char *)malloc(sizeof(char) * (x + 1));
+	if (!*part)
+		return (0);
 	x = 0;
 	while (str[*i] && str[*i] != ',')
 	{
@@ -332,6 +347,9 @@ int	find_rgb_part(char *str, char **part, int *i)
 	}
 	if (str[*i] == ',')
 		(*i)++;
+	if (str[*i] == ',')
+		return (ft_free(part), write(STDERR_FILENO, "Multiple commas\n", 16),
+			0);
 	(*part)[x] = '\0';
 	return (1);
 }
@@ -341,6 +359,12 @@ unsigned int	rgb_to_hex(int r, int g, int b)
 	return (((unsigned int)r << 16) + ((unsigned int)g << 8) + (unsigned int)b);
 }
 
+void	free_rgb_parts(char **r, char **g, char **b)
+{
+	ft_free(r);
+	ft_free(g);
+	ft_free(b);
+}
 int	set_hex_color(t_parsing *data, int ret)
 {
 	char	*r;
@@ -351,33 +375,27 @@ int	set_hex_color(t_parsing *data, int ret)
 	i = 0;
 	if (!ret)
 		return (ret);
-	find_rgb_part(data->floor_color, &r, &i);
-	find_rgb_part(data->floor_color, &g, &i);
-	find_rgb_part(data->floor_color, &b, &i);
+	if (!find_rgb_part(data->floor_color, &r, &i))
+		return (free_data(data), 0);
+	if (!find_rgb_part(data->floor_color, &g, &i))
+		return (free_data(data), ft_free(&r), 0);
+	if (!find_rgb_part(data->floor_color, &b, &i))
+		return (free_data(data), ft_free(&r), ft_free(&g), 0);
+	ft_free(&data->floor_color);
 	data->hex_floor = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
-	ft_free(&r);
-	ft_free(&g);
-	ft_free(&b);
+	free_rgb_parts(&r, &g, &b);
 	i = 0;
-	find_rgb_part(data->ceiling_color, &r, &i);
-	find_rgb_part(data->ceiling_color, &g, &i);
-	find_rgb_part(data->ceiling_color, &b, &i);
+	if (!find_rgb_part(data->ceiling_color, &r, &i))
+		return (free_data(data), 0);
+	if (!find_rgb_part(data->ceiling_color, &g, &i))
+		return (free_data(data), ft_free(&r), 0);
+	if (!find_rgb_part(data->ceiling_color, &b, &i))
+		return (free_data(data), ft_free(&r), ft_free(&g), 0);
+	ft_free(&data->ceiling_color);
 	data->hex_ceiling = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
-	ft_free(&r);
-	ft_free(&g);
-	ft_free(&b);
+	free_rgb_parts(&r, &g, &b);
 	return (1);
 }
-
-// int	rm_nl_map(char **str, int ret)
-// {
-// 	if (!ret)
-// 		return (ret);
-// 	int i = 0;
-// 	int found;
-// 	found = 0;
-// 	char *new;
-// }
 
 void	empty_check(t_parsing *data, int *ret)
 {
@@ -401,6 +419,7 @@ int	tex_color_filled(t_parsing *data)
 	int	ret;
 
 	ret = 1;
+	empty_check(data, &ret);
 	if (ret == 1)
 	{
 		ret = remove_whitespace(&data->ceiling_color, ret);
@@ -421,7 +440,7 @@ int	map_char(char c)
 		|| c == 'E');
 }
 
-char	*trim_spaces_from_end(char *line)
+char	*trim_spaces_from_end(char *line, t_parsing *data)
 {
 	char	*trimmed;
 	int		i;
@@ -430,13 +449,13 @@ char	*trim_spaces_from_end(char *line)
 	while (i >= 0)
 	{
 		if (map_char(line[i]))
-		{
 			break ;
-		}
 		if (!map_char(line[i]) && line[i] != ' ' && line[i] != '\n')
 		{
 			write(STDERR_FILENO, "Found a non-map character in your map.\n",
 				39);
+			ft_free(&line);
+			free_data(data);
 			exit(EXIT_FAILURE);
 		}
 		i--;
@@ -448,16 +467,19 @@ char	*trim_spaces_from_end(char *line)
 	return (trimmed);
 }
 
-void	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
+int	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
 		bool *found_end)
 {
 	char	*trim;
 
-	trim = trim_spaces_from_end(gnl_output);
+	trim = trim_spaces_from_end(gnl_output, data);
 	if (trim)
 	{
 		if (*found_end)
 		{
+			ft_free(&gnl_output);
+			free_data(data);
+			ft_free(&trim);
 			write(STDERR_FILENO, "Found empty line in map\n", 24);
 			exit(EXIT_FAILURE);
 		}
@@ -466,9 +488,11 @@ void	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
 	else if (*found_start)
 	{
 		*found_end = true;
-		return ;
+		return (1);
 	}
 	data->map = ft_strjoin_gnl(data->map, trim);
+	ft_free(&trim);
+	return (1);
 }
 
 int	read_file(t_parsing *data)
@@ -479,21 +503,26 @@ int	read_file(t_parsing *data)
 
 	gnl_output = NULL;
 	data->map = ft_strdup("");
+	if (!data->map)
+		return (0);
 	while (1)
 	{
 		gnl_output = get_next_line(data->file_fd);
 		if (!gnl_output)
 			break ;
 		if (!check_if_tex_color(data, gnl_output, &found_start, &found_end))
-			return (ft_free(&gnl_output), 0);
+			return (free_data(data), ft_free(&gnl_output), 0);
 		if (check_if_tex_color_return(gnl_output))
-			gnl_to_map(gnl_output, data, &found_start, &found_end);
+			if (!gnl_to_map(gnl_output, data, &found_start, &found_end))
+				return (0);
 		ft_free(&gnl_output);
 	}
+	close(data->file_fd);
+	data->file_fd = -1;
 	ft_free(&gnl_output);
 	if (!tex_color_filled(data))
-		return (0);
+		return (free_data(data), 0);
 	print_tex_color(data);
-	printf("data->map \n%s\n", data->map);
+	// printf("data->map \n%s\n", data->map);
 	return (1);
 }
