@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/15 12:55:56 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/16 16:07:50 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,32 @@ int					valid_map(t_parsing *data);
 
 void				rotate_left(t_parsing *data, double rot_speed);
 void				rotate_right(t_parsing *data, double rot_speed);
+
+int					find_rgb_part(char *str, char **part, int *i);
+unsigned int		rgb_to_hex(int r, int g, int b);
+void				free_rgb_parts(char **r, char **g, char **b);
+int					set_hex_color(t_parsing *data, int ret);
+
+int					malloc_color(char **color, char *str, int i);
+int					color_valid_check(char *str, int ret);
+int					color_missing_check(t_parsing *data, int ret);
+
+int					remove_whitespace(char **str, int ret);
+void				empty_check(t_parsing *data, int *ret);
+int					tex_color_filled(t_parsing *data);
+int					map_char(char c);
+char				*trim_spaces_from_end(char *line, t_parsing *data);
+
+int					check_if_tex_color(t_parsing *data, char *str,
+						bool *found_start, bool *found_end);
+int					check_if_tex_color_return(char *str);
+int					xpm_file_check(char *str, mlx_texture_t **tex);
+int					check_tex_path(t_parsing *data, int ret);
+
+int					remove_nl(char *str);
+char				*skip_spaces(char *str);
+int					set_data(t_parsing *data, TEX_COLOR found, char *str,
+						bool *found_start, bool *found_end);
 
 /*
 UTILS
