@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 15:40:02 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/16 15:59:33 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/17 13:51:30 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,45 +33,46 @@ int	malloc_color(char **color, char *str, int i)
 	return (1);
 }
 
+int	color_check(int y, char **color, int *i)
+{
+	if (y > 4 || ft_atoi(*color) > 255 || ft_atoi(*color) < 0)
+		return (ft_free(color), write(STDERR_FILENO,
+				"Color RGB range is between 0 and 255\n", 37), 0);
+	ft_free(color);
+	(*i)++;
+	return (1);
+}
+
 int	color_valid_check(char *str, int ret)
 {
-	int		x;
 	char	*color;
+	int		x;
 	int		i;
 	int		y;
 
-	y = 0;
 	i = 0;
-	x = 0;
+	x = -1;
 	if (!ret)
-		return (0);
-	while (x < 3)
+		return (ret);
+	while (++x < 3)
 	{
-		malloc_color(&color, str, i);
 		y = 0;
+		if (!malloc_color(&color, str, i))
+			return (0);
 		while (str[i] && str[i] != ',')
 		{
-			if (y == 0 && str[i] == '0')
-			{
+			while (y == 0 && str[i] == '0')
 				i++;
-				continue ;
-			}
-			color[y] = str[i];
-			y++;
-			i++;
+			color[y++] = str[i++];
 		}
 		color[y] = '\0';
-		if (y > 4 || ft_atoi(color) > 255 || ft_atoi(color) < 0)
-			return (ft_free(&color), write(STDERR_FILENO,
-					"Color RGB range is between 0 and 255\n", 37), 0);
-		ft_free(&color);
-		i++;
-		x++;
+		if (!color_check(y, &color, &i))
+			return (0);
 	}
 	return (1);
 }
 
-int	color_missing_check(t_parsing *data, int ret)
+int	color_missing_check(char *str, int ret)
 {
 	int	i;
 	int	x;
@@ -79,25 +80,12 @@ int	color_missing_check(t_parsing *data, int ret)
 	i = 0;
 	x = 0;
 	if (!ret)
-		return (0);
-	if (ft_isalnum(data->floor_color[i]))
+		return (ret);
+	if (ft_isalnum(str[i]))
 		x++;
-	while (data->floor_color[i])
+	while (str[i])
 	{
-		if (data->floor_color[i] == ',' && ft_isalnum(data->floor_color[i + 1]))
-			x++;
-		i++;
-	}
-	if (x != 3)
-		return (write(STDERR_FILENO, "Invalid color\n", 14), 0);
-	i = 0;
-	x = 0;
-	if (ft_isalnum(data->ceiling_color[i]))
-		x++;
-	while (data->ceiling_color[i])
-	{
-		if (data->ceiling_color[i] == ',' && ft_isalnum(data->ceiling_color[i
-				+ 1]))
+		if (str[i] == ',' && ft_isalnum(str[i + 1]))
 			x++;
 		i++;
 	}

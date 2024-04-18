@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:06:58 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/16 16:08:04 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/17 13:24:06 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,58 +37,35 @@ char	*skip_spaces(char *str)
 	return (ft_strndup(str + i, nl - i));
 }
 
+void	set_data_tex(bool *already_exists, char *str, char **str_data)
+{
+	if (!*str_data)
+		*str_data = skip_spaces(str);
+	else
+		*already_exists = true;
+}
+
 int	set_data(t_parsing *data, TEX_COLOR found, char *str, bool *found_start,
 		bool *found_end)
 {
 	bool	already_exists;
 
-	if (*found_start && !*found_end)
-	{
-		*found_end = true;
-	}
+	
 	already_exists = false;
+	if (*found_start && !*found_end)
+		*found_end = true;
 	if (found == NO)
-	{
-		if (!data->path_north_tex)
-			data->path_north_tex = skip_spaces(str);
-		else
-			already_exists = true;
-	}
+		set_data_tex(&already_exists, str, &data->path_north_tex);
 	else if (found == SO)
-	{
-		if (!data->path_south_tex)
-			data->path_south_tex = skip_spaces(str);
-		else
-			already_exists = true;
-	}
+		set_data_tex(&already_exists, str, &data->path_south_tex);
 	else if (found == WE)
-	{
-		if (!data->path_west_tex)
-			data->path_west_tex = skip_spaces(str);
-		else
-			already_exists = true;
-	}
+		set_data_tex(&already_exists, str, &data->path_west_tex);
 	else if (found == EA)
-	{
-		if (!data->path_east_tex)
-			data->path_east_tex = skip_spaces(str);
-		else
-			already_exists = true;
-	}
+		set_data_tex(&already_exists, str, &data->path_east_tex);
 	else if (found == F)
-	{
-		if (!data->floor_color)
-			data->floor_color = skip_spaces(str);
-		else
-			already_exists = true;
-	}
+		set_data_tex(&already_exists, str, &data->floor_color);
 	else if (found == C)
-	{
-		if (!data->ceiling_color)
-			data->ceiling_color = skip_spaces(str);
-		else
-			already_exists = true;
-	}
+		set_data_tex(&already_exists, str, &data->ceiling_color);
 	if (already_exists)
 		return (write(STDERR_FILENO, "Duplicate textures/color\n", 25), 0);
 	return (1);

@@ -6,46 +6,54 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:02:25 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/16 16:06:20 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/17 16:31:15 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 #include "../../include/get_next_line.h"
 
+int	find_no_space(char **str)
+{
+	int	i;
+	int	x;
+
+	i = 0;
+	x = 0;
+	while ((*str)[i])
+	{
+		if (!ft_isdigit((*str)[i]) && (*str)[i] != ',' && (*str)[i] != ' ')
+			return (write(STDERR_FILENO, "Non-digit symbol found in color\n",
+					32), -1);
+		if ((*str)[i] != ' ')
+			x++;
+		i++;
+	}
+	return (x);
+}
+
 int	remove_whitespace(char **str, int ret)
 {
 	int		i;
 	int		x;
 	char	*tmp;
-
 	i = 0;
-	x = 0;
 	if (!ret)
 		return (ret);
 	if (!ft_isdigit((*str)[i]) && (*str)[i] != ' ')
-		return (write(STDERR_FILENO, "Found comma at the start\n", 25), 0);
-	while ((*str)[i])
-	{
-		if (!ft_isdigit((*str)[i]) && (*str)[i] != ',' && (*str)[i] != ' ')
-			return (write(STDERR_FILENO, "Non-digit symbol found in color\n",
-					32), 0);
-		if ((*str)[i] != ' ')
-			x++;
-		i++;
-	}
+		return (write(STDERR_FILENO,
+				"Found comma/invalid character at the start\n", 43), 0);
+	x = find_no_space(str);
+	if (x == -1)
+		return (0);
 	tmp = (char *)malloc((x + 1) * sizeof(char));
-	i = 0;
+	if (!tmp)
+		return(0);
+	i = -1;
 	x = 0;
-	while ((*str)[i])
-	{
+	while ((*str)[++i])
 		if ((*str)[i] != ' ')
-		{
-			tmp[x] = (*str)[i];
-			x++;
-		}
-		i++;
-	}
+			tmp[x++] = (*str)[i];
 	tmp[x] = '\0';
 	ft_free(str);
 	*str = tmp;
@@ -79,12 +87,12 @@ int	tex_color_filled(t_parsing *data)
 	{
 		ret = remove_whitespace(&data->ceiling_color, ret);
 		ret = remove_whitespace(&data->floor_color, ret);
-		ret = color_missing_check(data, ret);
+		ret = color_missing_check(data->ceiling_color, ret);
+		ret = color_missing_check(data->floor_color, ret);
 		ret = color_valid_check(data->ceiling_color, ret);
 		ret = color_valid_check(data->floor_color, ret);
 		ret = set_hex_color(data, ret);
 		ret = check_tex_path(data, ret);
-		// ret = rm_nl_map(&data->map, ret);
 	}
 	return (ret);
 }
@@ -118,6 +126,8 @@ char	*trim_spaces_from_end(char *line, t_parsing *data)
 	if (i == -1)
 		return (NULL);
 	trimmed = ft_strndup(line, i + 1);
+	if (!trimmed)
+		return (NULL);
 	trimmed = ft_strjoin_gnl(trimmed, "\n");
 	return (trimmed);
 }

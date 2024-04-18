@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/16 16:07:19 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/17 13:29:58 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 int	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
 		bool *found_end)
 {
-	char	*trim;
+	char	*trimmed_line;
 
-	trim = trim_spaces_from_end(gnl_output, data);
-	if (trim)
+	trimmed_line = trim_spaces_from_end(gnl_output, data);
+	if (trimmed_line)
 	{
 		if (*found_end)
 		{
 			ft_free(&gnl_output);
 			free_data(data);
-			ft_free(&trim);
+			ft_free(&trimmed_line);
 			write(STDERR_FILENO, "Found empty line in map\n", 24);
 			exit(EXIT_FAILURE);
 		}
@@ -36,16 +36,16 @@ int	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
 		*found_end = true;
 		return (1);
 	}
-	data->map = ft_strjoin_gnl(data->map, trim);
-	ft_free(&trim);
+	data->map = ft_strjoin_gnl(data->map, trimmed_line);
+	ft_free(&trimmed_line);
 	return (1);
 }
 
 int	read_file(t_parsing *data)
 {
 	char		*gnl_output;
-	static bool	found_start;
-	static bool	found_end;
+	bool	found_start;
+	bool	found_end;
 
 	gnl_output = NULL;
 	data->map = ft_strdup("");
@@ -65,10 +65,7 @@ int	read_file(t_parsing *data)
 	}
 	close(data->file_fd);
 	data->file_fd = -1;
-	ft_free(&gnl_output);
 	if (!tex_color_filled(data))
-		return (free_data(data), 0);
-	print_tex_color(data);
-	// printf("data->map \n%s\n", data->map);
-	return (1);
+		return (ft_free(&gnl_output), free_data(data), 0);
+	return (ft_free(&gnl_output), 1);
 }

@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/16 16:07:50 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/17 13:52:22 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int					set_hex_color(t_parsing *data, int ret);
 
 int					malloc_color(char **color, char *str, int i);
 int					color_valid_check(char *str, int ret);
-int					color_missing_check(t_parsing *data, int ret);
+int					color_missing_check(char *str, int ret);
 
 int					remove_whitespace(char **str, int ret);
 void				empty_check(t_parsing *data, int *ret);

@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:10:48 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/15 15:45:52 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/04/17 13:26:47 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,11 +249,11 @@ int	main(int ac, char **av)
 	{
 		if (!parsing(av[1], &data))
 			return (EXIT_FAILURE);
-		// if (!set_ray_struct(&data))
-		// 	return (EXIT_FAILURE);
-		// mlx_loop_hook(data.window, keys_loop, &data);
-		// mlx_loop(data.window);
-		// mlx_terminate(data.window);
+		if (!set_ray_struct(&data))
+			return (EXIT_FAILURE);
+		mlx_loop_hook(data.window, keys_loop, &data);
+		mlx_loop(data.window);
+		mlx_terminate(data.window);
 		free_data(&data);
 	}
 	else
