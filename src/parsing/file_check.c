@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:46:25 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 13:29:42 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:33:26 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 int	filename_check(t_parsing *data)
 {
 	int		end;
-	char	dotcube[] = "buc.";
+	char	*dotcube;
 	int		x;
 
 	x = 0;
 	end = ft_strlen(data->filename) - 1;
+	dotcube = ft_strdup("buc.");
+	if (!dotcube)
+		return (0);
 	while (data->filename[end] == dotcube[x])
 	{
 		x++;
 		end--;
 	}
+	ft_free(&dotcube);
 	if (x != 4)
 	{
 		write(STDERR_FILENO, "Only use .cub files\n", 20);

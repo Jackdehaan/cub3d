@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:02:25 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 13:29:48 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 15:16:00 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	empty_check(t_parsing *data, int *ret)
 	if (*ret == 0)
 		write(STDERR_FILENO, "Textures or colors not filled\n", 30);
 }
+
 int	tex_color_filled(t_parsing *data)
 {
 	int	ret;
@@ -92,16 +93,11 @@ int	tex_color_filled(t_parsing *data)
 		ret = color_missing_check(data->floor_color, ret);
 		ret = color_valid_check(data->ceiling_color, ret);
 		ret = color_valid_check(data->floor_color, ret);
-		ret = set_hex_color(data, ret);
+		ret = set_hex_color(&data->floor_color, &data->hex_floor, ret);
+		ret = set_hex_color(&data->ceiling_color, &data->hex_ceiling, ret);
 		ret = check_tex_path(data, ret);
 	}
 	return (ret);
-}
-
-int	map_char(char c)
-{
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
-		|| c == 'E');
 }
 
 char	*trim_spaces_from_end(char *line, t_parsing *data)

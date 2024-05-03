@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 15:28:19 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/16 15:29:04 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 15:12:57 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_rgb_parts(char **r, char **g, char **b)
 	ft_free(b);
 }
 
-int	set_hex_color(t_parsing *data, int ret)
+int	set_hex_color(char **str, unsigned int *hex, int ret)
 {
 	char	*r;
 	char	*g;
@@ -60,24 +60,14 @@ int	set_hex_color(t_parsing *data, int ret)
 	i = 0;
 	if (!ret)
 		return (ret);
-	if (!find_rgb_part(data->floor_color, &r, &i))
-		return (free_data(data), 0);
-	if (!find_rgb_part(data->floor_color, &g, &i))
-		return (free_data(data), ft_free(&r), 0);
-	if (!find_rgb_part(data->floor_color, &b, &i))
-		return (free_data(data), ft_free(&r), ft_free(&g), 0);
-	ft_free(&data->floor_color);
-	data->hex_floor = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
-	free_rgb_parts(&r, &g, &b);
-	i = 0;
-	if (!find_rgb_part(data->ceiling_color, &r, &i))
-		return (free_data(data), 0);
-	if (!find_rgb_part(data->ceiling_color, &g, &i))
-		return (free_data(data), ft_free(&r), 0);
-	if (!find_rgb_part(data->ceiling_color, &b, &i))
-		return (free_data(data), ft_free(&r), ft_free(&g), 0);
-	ft_free(&data->ceiling_color);
-	data->hex_ceiling = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	if (!find_rgb_part(*str, &r, &i))
+		return (0);
+	if (!find_rgb_part(*str, &g, &i))
+		return (ft_free(&r), 0);
+	if (!find_rgb_part(*str, &b, &i))
+		return (ft_free(&r), ft_free(&g), 0);
+	ft_free(str);
+	*hex = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
 	free_rgb_parts(&r, &g, &b);
 	return (1);
 }

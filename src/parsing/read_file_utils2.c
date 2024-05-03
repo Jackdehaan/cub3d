@@ -6,23 +6,20 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:06:58 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 13:29:51 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 15:31:10 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	remove_nl(char *str)
+int	remove_nl(char *s)
 {
-	int	len;
+	int	i;
 
-	len = ft_strlen(str);
-	while (len > 0 && (str[len - 1] == '\n' || str[len - 1] == ' ' || str[len
-			- 1] == '\t'))
-	{
-		len--;
-	}
-	return (len);
+	i = ft_strlen(s);
+	while (i > 0 && (s[i - 1] == '\n' || s[i - 1] == ' ' || s[i - 1] == '\t'))
+		i--;
+	return (i);
 }
 
 char	*skip_spaces(char *str)
@@ -45,14 +42,13 @@ void	set_data_tex(bool *already_exists, char *str, char **str_data)
 		*already_exists = true;
 }
 
-int	set_data(t_parsing *data, TEX_COLOR found, char *str, bool *found_start,
-		bool *found_end)
+int	set_data(t_parsing *data, TEX_COLOR found, char *str)
 {
 	bool	already_exists;
 
 	already_exists = false;
-	if (*found_start && !*found_end)
-		*found_end = true;
+	if (data->found_start && !data->found_end)
+		data->found_end = true;
 	if (found == NO)
 		set_data_tex(&already_exists, str, &data->path_north_tex);
 	else if (found == SO)

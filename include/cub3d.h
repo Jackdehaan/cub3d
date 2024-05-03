@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/17 13:52:22 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 15:30:00 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct t_parsing
 	int				map_width;
 	int				map_height;
 	int				**map_flood;
+	bool			found_start;
+	bool			found_end;
 	mlx_t			*window;
 	mlx_image_t		*image;
 	t_raycasting	*raycasting;
@@ -91,7 +93,7 @@ void				rotate_right(t_parsing *data, double rot_speed);
 int					find_rgb_part(char *str, char **part, int *i);
 unsigned int		rgb_to_hex(int r, int g, int b);
 void				free_rgb_parts(char **r, char **g, char **b);
-int					set_hex_color(t_parsing *data, int ret);
+int					set_hex_color(char **str, unsigned int *hex, int ret);
 
 int					malloc_color(char **color, char *str, int i);
 int					color_valid_check(char *str, int ret);
@@ -103,16 +105,14 @@ int					tex_color_filled(t_parsing *data);
 int					map_char(char c);
 char				*trim_spaces_from_end(char *line, t_parsing *data);
 
-int					check_if_tex_color(t_parsing *data, char *str,
-						bool *found_start, bool *found_end);
+int					check_if_tex_color(t_parsing *data, char *str);
 int					check_if_tex_color_return(char *str);
 int					xpm_file_check(char *str, mlx_texture_t **tex);
 int					check_tex_path(t_parsing *data, int ret);
 
 int					remove_nl(char *str);
 char				*skip_spaces(char *str);
-int					set_data(t_parsing *data, TEX_COLOR found, char *str,
-						bool *found_start, bool *found_end);
+int					set_data(t_parsing *data, TEX_COLOR found, char *str);
 
 /*
 UTILS

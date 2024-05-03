@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/31 14:46:33 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/05/03 13:29:34 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:30:46 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,5 @@ int	check_map(t_parsing *data)
 		}
 		y++;
 	}
-	// printf("%d | %d", data->map_height, data->map_width);
 	return (1);
 }

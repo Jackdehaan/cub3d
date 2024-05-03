@@ -6,11 +6,17 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/08 15:28:43 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 13:30:04 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 15:15:43 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+int	map_char(char c)
+{
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'W'
+		|| c == 'E');
+}
 
 bool	check_if_start_pos(t_parsing *data)
 {
