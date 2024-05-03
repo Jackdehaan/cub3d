@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:06:58 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/17 13:24:06 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:29:51 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	set_data(t_parsing *data, TEX_COLOR found, char *str, bool *found_start,
 {
 	bool	already_exists;
 
-	
 	already_exists = false;
 	if (*found_start && !*found_end)
 		*found_end = true;

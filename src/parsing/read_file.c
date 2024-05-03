@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/17 13:29:58 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:29:54 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	gnl_to_map(char *gnl_output, t_parsing *data, bool *found_start,
 
 int	read_file(t_parsing *data)
 {
-	char		*gnl_output;
+	char	*gnl_output;
 	bool	found_start;
 	bool	found_end;
 

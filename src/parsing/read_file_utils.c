@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:02:25 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/17 16:31:15 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:29:48 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	remove_whitespace(char **str, int ret)
 	int		i;
 	int		x;
 	char	*tmp;
+
 	i = 0;
 	if (!ret)
 		return (ret);
@@ -48,7 +49,7 @@ int	remove_whitespace(char **str, int ret)
 		return (0);
 	tmp = (char *)malloc((x + 1) * sizeof(char));
 	if (!tmp)
-		return(0);
+		return (0);
 	i = -1;
 	x = 0;
 	while ((*str)[++i])

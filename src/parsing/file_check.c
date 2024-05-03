@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:46:25 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/03/29 13:52:03 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:29:42 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	open_file(t_parsing *data)
 	if (data->file_fd == -1)
 	{
 		perror("Failed to open the file");
-        return(0);
+		return (0);
 	}
-    return(1);
+	return (1);
 }

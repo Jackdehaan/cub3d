@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/31 14:46:33 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/04/15 15:46:45 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/03 13:29:34 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	check_if_valid(t_parsing *data, int **map_flood, int y, int x)
 
 int	check_map(t_parsing *data)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
 	x = 0;
