@@ -5,11 +5,14 @@ SRC_DIR = src
 PARSING_DIR = parsing
 UTILS_DIR = utils
 GNL_DIR = gnl
+DRAW_DIR = draw
 
 SRC :=  $(wildcard $(SRC_DIR)/*.c) \
 	    $(wildcard $(SRC_DIR)/$(PARSING_DIR)/*.c) \
         $(wildcard $(SRC_DIR)/$(UTILS_DIR)/*.c) \
-        $(wildcard $(SRC_DIR)/$(GNL_DIR)/*.c)
+        $(wildcard $(SRC_DIR)/$(GNL_DIR)/*.c) \
+        $(wildcard $(SRC_DIR)/$(DRAW_DIR)/*.c) 
+
 
 OBJS_DIR = objs
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
