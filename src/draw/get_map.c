@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_map.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 13:33:44 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/04/15 15:45:19 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 13:33:44 by jade-haa          #+#    #+#             */
+/*   Updated: 2024/06/04 16:13:08 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ void	print2d_array(t_parsing *data)
 		i = 0;
 		while (data->map_flood[j][i])
 		{
-			// printf("%d ", data->map_flood[j][i]);
 			i++;
 		}
 		j++;
-		// printf("\n");
 	}
 }
 
@@ -50,11 +48,6 @@ int	set_value(char value, t_parsing *data, int y, int x)
 			data->player_position[1] = x + 1;
 			data->player_position[0] = y + 1;
 		}
-		// printf("value %c\n", value);
-		// printf("%f | %f == %c\n", data->player_position[0],
-			// data->player_position[1], value);
-		// printf("value %d\n", data->map_flood[(int)data->player_position[0]][(int)data->player_position[1]]);
-		// exit(EXIT_FAILURE);
 		return (0);
 	}
 	else
@@ -91,8 +84,6 @@ int	get_width(char *map, int *pointer)
 void	get_map_size(t_parsing *data)
 {
 	data->map_width = get_width(data->map, &data->map_height);
-	// printf("%d | %d\n", data->map_width, data->map_height);
-	// data->map_height = get_height(data->map);
 }
 
 int	**set_two(t_parsing *data)
@@ -110,15 +101,11 @@ int	**set_two(t_parsing *data)
 		map_flood[j] = (int *)malloc(sizeof(int) * data->map_width);
 		while (i < data->map_width)
 		{
-			// printf("%c ", data->map[index]);
 			map_flood[j][i] = 2;
-			// printf("%d ", map_flood[j][i]);
 			i++;
 		}
-		// printf("\n");
 		j++;
 	}
-	// printf("\n\n\n");
 	return (map_flood);
 }
 
@@ -144,7 +131,6 @@ int	init_map(t_parsing *data)
 				while (++i < data->map_width)
 				{
 					data->map_flood[j][i] = 2;
-					// printf("%d ", data->map_flood[j][i]);
 				}
 				break ;
 			}
@@ -154,15 +140,12 @@ int	init_map(t_parsing *data)
 				while (i < data->map_width - 1)
 				{
 					data->map_flood[j][i] = 2;
-					// printf("%d ", data->map_flood[j][i]);
 					i++;
 				}
 			}
-			// printf("%d ", data->map_flood[j][i]);
 			index++;
 			i++;
 		}
-		// printf("\n");
 		j++;
 	}
 	return (1);

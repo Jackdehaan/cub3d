@@ -1,41 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/28 19:28:23 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 12:10:49 by rfinneru          #+#    #+#             */
+/*   Updated: 2024/06/04 16:51:49 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int roundd(double d){
-        int i = (int)d;
-        double remainder = d - i;
-        if(remainder>=0.5){
-            i++;
-        }
-        return i;
-    }
+int	roundd(double d)
+{
+	int		i;
+	double	remainder;
+
+	i = (int)d;
+	remainder = d - i;
+	if (remainder >= 0.5)
+	{
+		i++;
+	}
+	return (i);
+}
 
 int	is_valid_move(double x, double y, t_parsing *data)
 {
-	// if ((int)x - 1 <= 0 || (int)y - 1 <= 0 || (int)x + 1 >= data->map_width
-	// 	|| (int)y + 1 >= data->map_height)
-	// {
-	// 	return (0);
-	// }
-	
 	if (data->map_width < (x) || data->map_flood[roundd(y)][roundd((x))] == 1)
 		return (0);
-	if (data->map_height < (y) ||  data->map_flood[roundd((y))][roundd(x)] == 1)
+	if (data->map_height < (y) || data->map_flood[roundd((y))][roundd(x)] == 1)
 		return (0);
-	if ((y) < 0 ||  data->map_flood[roundd((y))][roundd(x)] == 1)
+	if ((y) < 0 || data->map_flood[roundd((y))][roundd(x)] == 1)
 		return (0);
-	if ((x) < 0  || data->map_flood[roundd(y)][roundd((x))] == 1)
+	if ((x) < 0 || data->map_flood[roundd(y)][roundd((x))] == 1)
 		return (0);
 	return (1);
 }
@@ -97,25 +96,8 @@ double	calculateAngle(double dir_y, double dir_x)
 	return (atan2(dir_y, dir_x));
 }
 
-void	keys_loop(void *param)
+void	keys_s_w(t_parsing *data, double angle, double new_y, double new_x)
 {
-	t_parsing	*data;
-	int			**map;
-	int			y;
-	int			x;
-	double		new_y;
-	double		new_x;
-	double		angle;
-
-	new_y = 0;
-	new_x = 0;
-	data = param;
-	map = data->map_flood;
-	y = data->player_position[0];
-	x = data->player_position[1];
-	angle = atan2(data->raycasting->dir_y, data->raycasting->dir_x);
-	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
-		mlx_close_window(data->window);
 	if (mlx_is_key_down(data->window, MLX_KEY_S))
 	{
 		new_x = data->player_position[1] - cos(angle) * MOV_SPEED;
@@ -140,6 +122,10 @@ void	keys_loop(void *param)
 		else
 			return ;
 	}
+}
+
+void	keys_d_a(t_parsing *data, double angle, double new_y, double new_x)
+{
 	if (mlx_is_key_down(data->window, MLX_KEY_D))
 	{
 		new_x = data->player_position[1] - cos(angle - M_PI / 2) * MOV_SPEED;
@@ -164,6 +150,29 @@ void	keys_loop(void *param)
 		else
 			return ;
 	}
+}
+
+void	keys_loop(void *param)
+{
+	t_parsing	*data;
+	int			**map;
+	int			y;
+	int			x;
+	double		new_y;
+	double		new_x;
+	double		angle;
+
+	new_y = 0;
+	new_x = 0;
+	data = param;
+	map = data->map_flood;
+	y = data->player_position[0];
+	x = data->player_position[1];
+	angle = atan2(data->raycasting->dir_y, data->raycasting->dir_x);
+	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
+		mlx_close_window(data->window);
+	keys_d_a(data, angle, new_y, new_x);
+	keys_s_w(data, angle, new_y, new_x);
 	if (mlx_is_key_down(data->window, MLX_KEY_LEFT))
 		rotate_left(data, ROT_SPEED);
 	if (mlx_is_key_down(data->window, MLX_KEY_RIGHT))
