@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 15:30:00 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/05/24 17:05:55 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <stdio.h>
 # include <unistd.h>
 
-# define WIDTH 1320
-# define HEIGHT 1320
+# define WIDTH 1920
+# define HEIGHT 1920
 # define BACKGROUND_COLOR 0x22222200
 # define MOV_SPEED 0.1
 # define ROT_SPEED 0.1

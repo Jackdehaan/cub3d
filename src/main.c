@@ -5,67 +5,38 @@
 /*                                                     +:+                    */
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/03/29 12:10:48 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/04/17 13:26:47 by rfinneru      ########   odam.nl         */
+/*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/05/28 19:28:23 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
+int roundd(double d){
+        int i = (int)d;
+        double remainder = d - i;
+        if(remainder>=0.5){
+            i++;
+        }
+        return i;
+    }
+
 int	is_valid_move(double x, double y, t_parsing *data)
 {
-	printf("%f | %f | %d | %d\n", x, y, data->map_width, data->map_height);
-	if ((int)x - 1 <= 0 || (int)y - 1 <= 0 || (int)x + 1 >= data->map_width - 2
-		|| (int)y + 1 >= data->map_height - 2)
-	{
-		printf("false 1 %f | %f\n", x, y);
+	// if ((int)x - 1 <= 0 || (int)y - 1 <= 0 || (int)x + 1 >= data->map_width
+	// 	|| (int)y + 1 >= data->map_height)
+	// {
+	// 	return (0);
+	// }
+	
+	if (data->map_width < (x) || data->map_flood[roundd(y)][roundd((x))] == 1)
 		return (0);
-	}
-	if (data->map_flood[(int)y][(int)x] == 1)
-		return (write(1, "1", 1), 0);
-	if (data->map_flood[(int)(y + (MOV_SPEED * 2))][(int)x] == 1)
-		return (write(1, "2", 1), 0);
-	if (data->map_flood[(int)y][(int)(x + (MOV_SPEED * 2))] == 1)
-		return (write(1, "3", 1), 0);
-	if (data->map_flood[(int)(y + (MOV_SPEED * 2))][(int)(x + (MOV_SPEED
-				* 2))] == 1)
-		return (write(1, "4", 1), 0);
-	if (data->map_flood[(int)(y - (MOV_SPEED))][(int)(x - (MOV_SPEED))] == 1)
-		return (write(1, "5", 1), 0);
-	if (data->map_flood[(int)(y - (MOV_SPEED))][(int)((x) - (MOV_SPEED))] == 1)
-		return (write(1, "6", 1), 0);
-	if (data->map_flood[(int)((y) - (MOV_SPEED))][(int)(x - (MOV_SPEED))] == 1)
-		return (write(1, "7", 1), 0);
-	// if (data->map_flood[(int)((y + 1) - (MOV_SPEED * 3))][(int)((x + 1)
-	// 		- (MOV_SPEED * 4))] == 1)
-	// 	return (write(1, "8", 1), 0);
-	// if (data->map_flood[(int)y][(int)(x + (MOV_SPEED * 2))] == 1)
-	// 	return (write(1, "5", 1), 0);
-	if (data->map_flood[(int)y][(int)x] == 1)
-		return (write(1, "8", 1), 0);
-	// if (data->map_flood[(int)round((y) + MOV_SPEED)][(int)round((x)
-	// 		+ MOV_SPEED)] == 1 || data->map_flood[(int)round((y + 0.5)
-	// 		+ MOV_SPEED)][(int)round((x + 0.5))] || data->map_flood[(int)round(y
-	// 		+ MOV_SPEED / 2)][(int)round(x + MOV_SPEED / 2)] == 1
-	// 	|| data->map_flood[(int)round(y + MOV_SPEED * 2)][(int)round(x
-	// 		+ (MOV_SPEED * 2))] == 1)
-	// {
-	// 	printf("false 2 %f | %f\n", x, y);
-	// 	printf("block %d\n", data->map_flood[(int)round(y)][(int)round(x)]);
-	// 	return (0);
-	// }
-	// 	if (data->map_flood[(int)round((y) - MOV_SPEED)][(int)round((x)
-	// 		- MOV_SPEED)] == 1 || data->map_flood[(int)round((y - 1.5)
-	// 		- MOV_SPEED)][(int)round((x - 1.5))] || data->map_flood[(int)round(y
-	// 		- MOV_SPEED / 2)][(int)round(x - MOV_SPEED / 1.5)] == 1
-	// 	|| data->map_flood[(int)round(y - MOV_SPEED * 1.5)][(int)round(x
-	// 		- (MOV_SPEED * 2))] == 1)
-	// {
-	// 	printf("false 3 %f | %f\n", x, y);
-	// 	printf("block %d\n", data->map_flood[(int)round(y)][(int)round(x)]);
-	// 	return (0);
-	// }
-	printf("block %d\n", data->map_flood[(int)round(y)][(int)round(x)]);
+	if (data->map_height < (y) ||  data->map_flood[roundd((y))][roundd(x)] == 1)
+		return (0);
+	if ((y) < 0 ||  data->map_flood[roundd((y))][roundd(x)] == 1)
+		return (0);
+	if ((x) < 0  || data->map_flood[roundd(y)][roundd((x))] == 1)
+		return (0);
 	return (1);
 }
 
@@ -121,29 +92,6 @@ void	reset_map(t_parsing *data)
 	}
 }
 
-// int	is_valid_move(double x, double y, t_parsing *data)
-// {
-// 	printf("%d | %d\n", data->map_width, data->map_height);
-// 	if ((int)x < 0 || (int)y < 0 || (int)x >= data->map_width
-// 		|| (int)y >= data->map_height)
-// 	{
-// 		printf("false 1 %f | %f\n", x, y);
-// 		return (0);
-// 	}
-// 	if (data->map_flood[(int)round(y + MOV_SPEED)][(int)round(x
-// + MOV_SPEED)] == 1
-// 		|| data->map_flood[(int)round(y)][(int)round(x)] == 1
-// || data->map_flood[(int)round(y
-// 			+ MOV_SPEED / 2)][(int)round(x + MOV_SPEED / 2)] == 1
-// || data->map_flood[(int)round(y
-// 			+ MOV_SPEED * 2)][(int)round(x + (MOV_SPEED * 2))] == 1)
-// 	{
-// 		printf("false 2 %f | %f\n", x, y);
-// 		return (0);
-// 	}
-// 	return (1);
-// }
-
 double	calculateAngle(double dir_y, double dir_x)
 {
 	return (atan2(dir_y, dir_x));
@@ -161,82 +109,65 @@ void	keys_loop(void *param)
 
 	new_y = 0;
 	new_x = 0;
-	// int			newPosX;
-	// int			newPosY;
 	data = param;
 	map = data->map_flood;
 	y = data->player_position[0];
 	x = data->player_position[1];
 	angle = atan2(data->raycasting->dir_y, data->raycasting->dir_x);
-	// printf("angle = %f\n", angle);
 	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
 		mlx_close_window(data->window);
 	if (mlx_is_key_down(data->window, MLX_KEY_S))
 	{
 		new_x = data->player_position[1] - cos(angle) * MOV_SPEED;
 		new_y = data->player_position[0] - sin(angle) * MOV_SPEED;
-		// x = (int)new_x;
-		// y = (int)new_y;
-		// printf("y == %d | x == %d\n", y, x);
-		// printf("%f | %f\n", cos(angle) * MOV_SPEED, sin(angle) * MOV_SPEED);
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[0] = new_y;
 			data->player_position[1] = new_x;
 		}
 		else
-			printf("fout S");
+			return ;
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_W))
 	{
 		new_x = data->player_position[1] + cos(angle) * MOV_SPEED;
 		new_y = data->player_position[0] + sin(angle) * MOV_SPEED;
-		// x = (int)new_x;
-		// y = (int)new_y;
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[1] = new_x;
 			data->player_position[0] = new_y;
 		}
 		else
-			printf("fout W");
+			return ;
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_D))
 	{
 		new_x = data->player_position[1] - cos(angle - M_PI / 2) * MOV_SPEED;
 		new_y = data->player_position[0] - sin(angle - M_PI / 2) * MOV_SPEED;
-		// x = (int)new_x;
-		// y = (int)new_y;
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[1] = new_x;
 			data->player_position[0] = new_y;
 		}
 		else
-			printf("fout D");
+			return ;
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_A))
 	{
 		new_x = data->player_position[1] + cos(angle - M_PI / 2) * MOV_SPEED;
 		new_y = data->player_position[0] + sin(angle - M_PI / 2) * MOV_SPEED;
-		// x = (int)new_x;
-		// y = (int)new_y;
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[1] = new_x;
 			data->player_position[0] = new_y;
 		}
 		else
-			printf("fout A");
+			return ;
 	}
-	// printf("%d | %d | %d | %d\n", data->player_position[0],
-	// 	data->player_position[1], data->map_height, data->map_width);
 	if (mlx_is_key_down(data->window, MLX_KEY_LEFT))
 		rotate_left(data, ROT_SPEED);
 	if (mlx_is_key_down(data->window, MLX_KEY_RIGHT))
 		rotate_right(data, ROT_SPEED);
-	// printf("atan == %f |", calculateAngle(data->raycasting->dir_x,
-	// 		data->raycasting->dir_y));
 	reset_map(data);
 	render_cube(data);
 }
@@ -257,6 +188,7 @@ int	main(int ac, char **av)
 		free_data(&data);
 	}
 	else
-		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21), EXIT_FAILURE);
+		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21),
+			EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
