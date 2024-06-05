@@ -13,7 +13,6 @@ SRC :=  $(wildcard $(SRC_DIR)/*.c) \
         $(wildcard $(SRC_DIR)/$(GNL_DIR)/*.c) \
         $(wildcard $(SRC_DIR)/$(DRAW_DIR)/*.c) 
 
-
 OBJS_DIR = objs
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
 
@@ -22,28 +21,31 @@ NAME = cub3D
 LIBFT_DIR = libft
 LIBFT_TARGET = src/libft.a
 
-LIBMLX_TARGET    := lib/MLX42/build/libmlx42.a 
-
-
-# LIBMLX_target = libmlx42.a 
+LIBMLX_DIR = lib/MLX42
+LIBMLX_TARGET = $(LIBMLX_DIR)/build/libmlx42.a
 
 .PHONY: all clean fclean re libmlx
 
 all: $(NAME)
 
 $(LIBMLX_TARGET):
-	make -C $(@D)
+	@echo "Cloning MLX42 repository..."
+	@git clone git@github.com:codam-coding-college/MLX42.git $(LIBMLX_DIR)
+	@echo "Building MLX42 library..."
+	@cd $(LIBMLX_DIR) && cmake -B build
+	@cd $(LIBMLX_DIR) && cmake --build build -j4
 
 clean:
 	rm -rf $(OBJ)
 	@echo "$(YELLOW)Removed all objects!$(DEFAULT)"
 	$(MAKE) -C $(LIBFT_DIR) clean
-	make -C $(dir $(LIBMLX_TARGET)) clean
-	@echo "$(YELLOW)Cleaned libft static library!$(DEFAULT)"
+	rm -rf $(OBJS_DIR)
+	@echo "$(YELLOW)Removed objects directory!$(DEFAULT)"
+	rm -rf $(LIBMLX_DIR)
+	@echo "$(YELLOW)Removed MLX42 directory!$(DEFAULT)"
 
 fclean: clean
 	rm -rf $(NAME)
-	rm -rf $(OBJS_DIR)
 	@echo "$(RED)Removed executables!$(DEFAULT)"
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(LIBFT_TARGET)
