@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/06/05 16:23:33 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:58:35 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,5 +193,7 @@ void					put_pixels(t_raycasting *values);
 void					init_values_loop(t_raycasting *values);
 void					get_direction(t_raycasting *values);
 void					get_wall(t_raycasting *values, t_parsing *data);
+int						is_valid_move(double x, double y, t_parsing *data);
+void					reset_map(t_parsing *data);
 
 #endif

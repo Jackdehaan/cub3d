@@ -6,98 +6,17 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:10:49 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/06/04 16:51:49 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:57:51 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	roundd(double d)
+void	keys_s_w(t_parsing *data, double angle)
 {
-	int		i;
-	double	remainder;
+	double	new_y;
+	double	new_x;
 
-	i = (int)d;
-	remainder = d - i;
-	if (remainder >= 0.5)
-	{
-		i++;
-	}
-	return (i);
-}
-
-int	is_valid_move(double x, double y, t_parsing *data)
-{
-	if (data->map_width < (x) || data->map_flood[roundd(y)][roundd((x))] == 1)
-		return (0);
-	if (data->map_height < (y) || data->map_flood[roundd((y))][roundd(x)] == 1)
-		return (0);
-	if ((y) < 0 || data->map_flood[roundd((y))][roundd(x)] == 1)
-		return (0);
-	if ((x) < 0 || data->map_flood[roundd(y)][roundd((x))] == 1)
-		return (0);
-	return (1);
-}
-
-void	rotate_left(t_parsing *data, double rot_speed)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = data->raycasting->dir_x;
-	data->raycasting->dir_x = data->raycasting->dir_x * cos(-rot_speed)
-		- data->raycasting->dir_y * sin(-rot_speed);
-	data->raycasting->dir_y = old_dir_x * sin(-rot_speed)
-		+ data->raycasting->dir_y * cos(-rot_speed);
-	old_plane_x = data->raycasting->plane_x;
-	data->raycasting->plane_x = data->raycasting->plane_x * cos(-rot_speed)
-		- data->raycasting->plane_y * sin(-rot_speed);
-	data->raycasting->plane_y = old_plane_x * sin(-rot_speed)
-		+ data->raycasting->plane_y * cos(-rot_speed);
-}
-
-void	rotate_right(t_parsing *data, double rot_speed)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = data->raycasting->dir_x;
-	data->raycasting->dir_x = data->raycasting->dir_x * cos(rot_speed)
-		- data->raycasting->dir_y * sin(rot_speed);
-	data->raycasting->dir_y = old_dir_x * sin(rot_speed)
-		+ data->raycasting->dir_y * cos(rot_speed);
-	old_plane_x = data->raycasting->plane_x;
-	data->raycasting->plane_x = data->raycasting->plane_x * cos(rot_speed)
-		- data->raycasting->plane_y * sin(rot_speed);
-	data->raycasting->plane_y = old_plane_x * sin(rot_speed)
-		+ data->raycasting->plane_y * cos(rot_speed);
-}
-
-void	reset_map(t_parsing *data)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			mlx_put_pixel(data->image, x, y, BACKGROUND_COLOR);
-			x++;
-		}
-		y++;
-	}
-}
-
-double	calculateAngle(double dir_y, double dir_x)
-{
-	return (atan2(dir_y, dir_x));
-}
-
-void	keys_s_w(t_parsing *data, double angle, double new_y, double new_x)
-{
 	if (mlx_is_key_down(data->window, MLX_KEY_S))
 	{
 		new_x = data->player_position[1] - cos(angle) * MOV_SPEED;
@@ -107,8 +26,6 @@ void	keys_s_w(t_parsing *data, double angle, double new_y, double new_x)
 			data->player_position[0] = new_y;
 			data->player_position[1] = new_x;
 		}
-		else
-			return ;
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_W))
 	{
@@ -119,13 +36,14 @@ void	keys_s_w(t_parsing *data, double angle, double new_y, double new_x)
 			data->player_position[1] = new_x;
 			data->player_position[0] = new_y;
 		}
-		else
-			return ;
 	}
 }
 
-void	keys_d_a(t_parsing *data, double angle, double new_y, double new_x)
+void	keys_d_a(t_parsing *data, double angle)
 {
+	double	new_y;
+	double	new_x;
+
 	if (mlx_is_key_down(data->window, MLX_KEY_D))
 	{
 		new_x = data->player_position[1] - cos(angle - M_PI / 2) * MOV_SPEED;
@@ -135,8 +53,6 @@ void	keys_d_a(t_parsing *data, double angle, double new_y, double new_x)
 			data->player_position[1] = new_x;
 			data->player_position[0] = new_y;
 		}
-		else
-			return ;
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_A))
 	{
@@ -147,8 +63,6 @@ void	keys_d_a(t_parsing *data, double angle, double new_y, double new_x)
 			data->player_position[1] = new_x;
 			data->player_position[0] = new_y;
 		}
-		else
-			return ;
 	}
 }
 
@@ -158,12 +72,8 @@ void	keys_loop(void *param)
 	int			**map;
 	int			y;
 	int			x;
-	double		new_y;
-	double		new_x;
 	double		angle;
 
-	new_y = 0;
-	new_x = 0;
 	data = param;
 	map = data->map_flood;
 	y = data->player_position[0];
@@ -171,8 +81,8 @@ void	keys_loop(void *param)
 	angle = atan2(data->raycasting->dir_y, data->raycasting->dir_x);
 	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
 		mlx_close_window(data->window);
-	keys_d_a(data, angle, new_y, new_x);
-	keys_s_w(data, angle, new_y, new_x);
+	keys_d_a(data, angle);
+	keys_s_w(data, angle);
 	if (mlx_is_key_down(data->window, MLX_KEY_LEFT))
 		rotate_left(data, ROT_SPEED);
 	if (mlx_is_key_down(data->window, MLX_KEY_RIGHT))
