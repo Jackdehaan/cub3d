@@ -6,53 +6,11 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:33:44 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/06/04 16:13:08 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:22:49 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-void	print2d_array(t_parsing *data)
-{
-	int	j;
-	int	i;
-
-	j = 0;
-	i = 0;
-	while (data->map_flood[j])
-	{
-		i = 0;
-		while (data->map_flood[j][i])
-		{
-			i++;
-		}
-		j++;
-	}
-}
-
-int	set_value(char value, t_parsing *data, int y, int x)
-{
-	if (value == '1')
-		return (1);
-	else if (value == '0')
-		return (0);
-	else if (value == '\n')
-		return (2);
-	else if (value == 'N' || value == 'E' || value == 'S' || value == 'W')
-	{
-		data->player_direction = value;
-		data->player_position[0] = y;
-		data->player_position[1] = x;
-		if (data->map_flood[y][x - 1] == 1 || data->map_flood[y - 1][x - 1] == 1)
-		{
-			data->player_position[1] = x + 1;
-			data->player_position[0] = y + 1;
-		}
-		return (0);
-	}
-	else
-		return (2);
-}
 
 int	get_width(char *map, int *pointer)
 {
@@ -109,6 +67,29 @@ int	**set_two(t_parsing *data)
 	return (map_flood);
 }
 
+int	init_piece(t_parsing *data, int j, int i, int index)
+{
+	if (j == data->map_height - 1)
+	{
+		i = -1;
+		while (++i < data->map_width)
+		{
+			data->map_flood[j][i] = 2;
+		}
+		return (1);
+	}
+	data->map_flood[j][i] = set_value(data->map[index], data, j, i);
+	if (data->map[index] == '\n' && i < data->map_width - 1)
+	{
+		while (i < data->map_width - 1)
+		{
+			data->map_flood[j][i] = 2;
+			i++;
+		}
+	}
+	return (1);
+}
+
 int	init_map(t_parsing *data)
 {
 	int	i;
@@ -125,24 +106,7 @@ int	init_map(t_parsing *data)
 		i = 0;
 		while (i < data->map_width)
 		{
-			if (j == data->map_height - 1)
-			{
-				i = -1;
-				while (++i < data->map_width)
-				{
-					data->map_flood[j][i] = 2;
-				}
-				break ;
-			}
-			data->map_flood[j][i] = set_value(data->map[index], data, j, i);
-			if (data->map[index] == '\n' && i < data->map_width - 1)
-			{
-				while (i < data->map_width - 1)
-				{
-					data->map_flood[j][i] = 2;
-					i++;
-				}
-			}
+			init_piece(data, j, i, index);
 			index++;
 			i++;
 		}
