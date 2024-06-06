@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/06 16:26:50 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 17:39:32 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	keys_s_w(t_parsing *data, double angle)
 
 	if (mlx_is_key_down(data->window, MLX_KEY_S))
 	{
-		new_x = data->player_position[1] - cos(angle) * MOV_SPEED;
-		new_y = data->player_position[0] - sin(angle) * MOV_SPEED;
+		new_x = data->player_position[1] - cos(angle) * (MOV_SPEED * 1.2);
+		new_y = data->player_position[0] - sin(angle) * (MOV_SPEED * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[0] = new_y;
@@ -29,8 +29,8 @@ void	keys_s_w(t_parsing *data, double angle)
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_W))
 	{
-		new_x = data->player_position[1] + cos(angle) * MOV_SPEED;
-		new_y = data->player_position[0] + sin(angle) * MOV_SPEED;
+		new_x = data->player_position[1] + cos(angle) * (MOV_SPEED * 1.2);
+		new_y = data->player_position[0] + sin(angle) * (MOV_SPEED * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[1] = new_x;
@@ -46,8 +46,8 @@ void	keys_d_a(t_parsing *data, double angle)
 
 	if (mlx_is_key_down(data->window, MLX_KEY_D))
 	{
-		new_x = data->player_position[1] - cos(angle - M_PI / 2) * MOV_SPEED;
-		new_y = data->player_position[0] - sin(angle - M_PI / 2) * MOV_SPEED;
+		new_x = data->player_position[1] - cos(angle - M_PI / 2) * (MOV_SPEED * 1.2);
+		new_y = data->player_position[0] - sin(angle - M_PI / 2) * (MOV_SPEED * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[1] = new_x;
@@ -56,8 +56,8 @@ void	keys_d_a(t_parsing *data, double angle)
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_A))
 	{
-		new_x = data->player_position[1] + cos(angle - M_PI / 2) * MOV_SPEED;
-		new_y = data->player_position[0] + sin(angle - M_PI / 2) * MOV_SPEED;
+		new_x = data->player_position[1] + cos(angle - M_PI / 2) * (MOV_SPEED * 1.2);
+		new_y = data->player_position[0] + sin(angle - M_PI / 2) * (MOV_SPEED * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
 			data->player_position[1] = new_x;

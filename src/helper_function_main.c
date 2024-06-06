@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 16:57:25 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 16:29:28 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 17:05:26 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ int	roundd(double d)
 
 int	is_valid_move(double x, double y, t_parsing *data)
 {
-	if (data->map_width < (x) || data->map_flood[roundd(y)][roundd((x))] != 0)
-		return (0);
-	if (data->map_height < (y) || data->map_flood[roundd(y)][roundd((x))] != 0)
-		return (0);
-	if (y < 1 || data->map_flood[roundd(y)][roundd((x))] != 0)
-		return (0);
-	if (x < 1 || data->map_flood[roundd(y)][roundd((x))] != 0)
-		return (0);
+	
+	if (data->map_width < (x)  || data->map_flood[(int)y][((int)x)] != 0 || data->map_flood[roundd(y)][roundd(x)] != 0)
+		return (write(1, "1\n" , 2), 0);
+	if (data->map_height < (y) || data->map_flood[(int)y][((int)x)] != 0 || data->map_flood[roundd(y)][roundd(x)] != 0)
+		return (write(1, "2\n" , 2),0);
+	if (y < 1 || data->map_flood[(int)y][((int)x)] != 0 || data->map_flood[roundd(y)][roundd(x)] != 0)
+		return (write(1, "3\n" , 2),0);
+	if (x < 1 || data->map_flood[(int)y][((int)x)] != 0 || data->map_flood[roundd(y)][roundd(x)] != 0)
+		return (write(1, "4\n" , 2),0);
 	return (1);
 }
 
