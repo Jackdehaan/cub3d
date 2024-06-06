@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/01 11:51:25 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 16:00:29 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 16:21:56 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	main_loop(t_raycasting *values, t_parsing *data)
 		values->y0 = values->drawStart;
 		values->x1 = values->x;
 		values->y1 = values->drawEnd;
-		printf("%d | %d | %d | %d ", values->x0, values->y0, values->x1,
-			values->y1);
+		// printf("%d | %d | %d | %d ", values->x0, values->y0, values->x1,
+			// values->y1);
 		dda(data, values);
 		while (index < values->i)
 		{
