@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:08:35 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/06/05 16:51:06 by jade-haa         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:31:47 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ struct mlx_texture	*choose_texture(t_parsing *data, double y, double x,
 
 void	put_pixels(t_raycasting *values)
 {
-	int			y;
-	u_int32_t	tmp;
+	int				y;
+	u_int32_t		tmp;
+	t_raycasting	*v;
 
+	v = values;
 	y = values->drawStart;
 	while (y < values->drawEnd)
 	{
@@ -51,7 +53,7 @@ void	put_pixels(t_raycasting *values)
 			values->green = values->tex->pixels[values->texelIndex + 1];
 			values->blue = values->tex->pixels[values->texelIndex + 2];
 			values->alpha = values->tex->pixels[values->texelIndex + 3];
-			tmp = (values->red << 24) | (values->green << 16) | (values->blue << 8) | values->alpha;
+			tmp = (v->red << 24) | (v->green << 16) | (v->blue << 8) | v->alpha;
 			values->colors[values->i] = tmp;
 		}
 		values->i++;
