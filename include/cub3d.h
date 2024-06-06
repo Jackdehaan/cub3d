@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/06/05 16:58:35 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/06/06 13:18:47 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int						check_map(t_parsing *data);
 int						init_map(t_parsing *data);
 int						set_ray_struct(t_parsing *data);
 int						valid_map(t_parsing *data);
+void					print_array(t_parsing *data);
 int						set_value(char value, t_parsing *data, int y, int x);
 
 void					rotate_left(t_parsing *data, double rot_speed);

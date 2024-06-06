@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/31 14:46:33 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/05/03 13:30:46 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 16:17:04 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ int	check_map(t_parsing *data)
 
 	y = 0;
 	x = 0;
+
 	while (y < data->map_height)
 	{
 		x = 0;
 		while (x < data->map_width)
 		{
 			if (!check_if_valid(data, data->map_flood, y, x))
+			{
 				return (free_data(data), write(STDERR_FILENO,
 						"Map not closed\n", 15), 0);
+			}
 			x++;
 		}
 		y++;

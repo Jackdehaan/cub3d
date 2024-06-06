@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   helper_function_main.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 16:57:25 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/06/05 16:59:40 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   helper_function_main.c                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/05 16:57:25 by jade-haa      #+#    #+#                 */
+/*   Updated: 2024/06/06 16:13:54 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	is_valid_move(double x, double y, t_parsing *data)
 		return (0);
 	if (data->map_height < (y) || data->map_flood[roundd((y))][roundd(x)] == 1)
 		return (0);
-	if ((y) < 0 || data->map_flood[roundd((y))][roundd(x)] == 1)
+	if (y < 0 || data->map_flood[roundd((y))][roundd(x)] == 1)
 		return (0);
-	if ((x) < 0 || data->map_flood[roundd(y)][roundd((x))] == 1)
+	if (x < 0 || data->map_flood[roundd(y)][roundd((x))] == 1)
 		return (0);
 	return (1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw_helper_functions.c                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 16:08:35 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/06/06 11:31:47 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   draw_helper_functions.c                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/05 16:08:35 by jade-haa      #+#    #+#                 */
+/*   Updated: 2024/06/06 16:15:44 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ void	put_pixels(t_raycasting *values)
 		y++;
 	}
 }
+double	ft_abs_double(double x)
+{
+	if (x < 0)
+		return (-x);
+	return (x);
+}
 
 void	init_values_loop(t_raycasting *values)
 {
@@ -68,14 +74,15 @@ void	init_values_loop(t_raycasting *values)
 	values->rayDirY = values->dirY + values->planeY * values->cameraX;
 	values->mapX = (int)values->posX;
 	values->mapY = (int)values->posY;
+	
 	if (values->rayDirX == 0)
 		values->deltaDistX = 1e30;
 	else
-		values->deltaDistX = fabs(1 / values->rayDirX);
+		values->deltaDistX = ft_abs_double(1 / values->rayDirX);
 	if (values->rayDirY == 0)
 		values->deltaDistY = 1e30;
 	else
-		values->deltaDistY = fabs(1 / values->rayDirY);
+		values->deltaDistY = ft_abs_double(1 / values->rayDirY);
 	values->hit = 0;
 }
 

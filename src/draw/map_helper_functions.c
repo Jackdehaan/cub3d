@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   map_helper_functions.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 16:47:44 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/06/05 16:49:47 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   map_helper_functions.c                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/05 16:47:44 by jade-haa      #+#    #+#                 */
+/*   Updated: 2024/06/06 15:52:14 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,18 @@ int	set_value(char value, t_parsing *data, int y, int x)
 		return (0);
 	else if (value == '\n')
 		return (2);
-	else if (value == 'N' || value == 'E' || value == 'S' || value == 'W')
+	else if ((value == 'N' || value == 'E' || value == 'S' || value == 'W'))
 	{
 		data->player_direction = value;
-		data->player_position[0] = y;
-		data->player_position[1] = x;
-		if (data->map_flood[y][x - 1] == 1 || data->map_flood[y - 1][x
-			- 1] == 1)
-		{
-			data->player_position[1] = x + 1;
-			data->player_position[0] = y + 1;
-		}
+		data->player_position[0] = y + 0.5;
+		data->player_position[1] = x + 0.5;
+		
+		// if (data->map_flood[y][x - 1] == 1 || data->map_flood[y - 1][x
+		// 	- 1] == 1)
+		// {
+		// 	data->player_position[1] = x + 1;
+		// 	data->player_position[0] = y + 1;
+		// }
 		return (0);
 	}
 	else

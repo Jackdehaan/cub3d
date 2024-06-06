@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:10:49 by rfinneru          #+#    #+#             */
-/*   Updated: 2024/06/06 11:30:45 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
+/*   Updated: 2024/06/06 13:59:10 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	keys_loop(void *param)
 	map = data->map_flood;
 	y = data->player_position[0];
 	x = data->player_position[1];
+	printf("%d | %d | %d\n", y, x, data->map_flood[y][x]);
 	angle = atan2(data->raycasting->dir_y, data->raycasting->dir_x);
 	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
 		mlx_close_window(data->window);
@@ -91,6 +92,20 @@ void	keys_loop(void *param)
 	render_cube(data);
 }
 
+void print_array(t_parsing *data)
+{
+	for (int y = 0; y < data->map_height; y++)
+	{
+		for (int x = 0; x < data->map_width; x++)
+		{
+			printf("%d ", data->map_flood[y][x]);
+		}
+		printf("\n");
+		
+	}
+	
+}
+
 int	main(int ac, char **av)
 {
 	static t_parsing	data;
@@ -101,6 +116,7 @@ int	main(int ac, char **av)
 			return (EXIT_FAILURE);
 		if (!set_ray_struct(&data))
 			return (EXIT_FAILURE);
+		print_array(&data);
 		mlx_loop_hook(data.window, keys_loop, &data);
 		mlx_loop(data.window);
 		mlx_terminate(data.window);

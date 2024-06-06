@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_map.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 13:33:44 by jade-haa          #+#    #+#             */
-/*   Updated: 2024/06/05 16:22:49 by jade-haa         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_map.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/29 13:33:44 by jade-haa      #+#    #+#                 */
+/*   Updated: 2024/06/06 13:57:19 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,35 @@ int	init_map(t_parsing *data)
 		i = 0;
 		while (i < data->map_width)
 		{
-			init_piece(data, j, i, index);
+			if (j == data->map_height - 1)
+			{
+				i = -1;
+				while (++i < data->map_width)
+				{
+					data->map_flood[j][i] = 2;
+					// printf("%d ", data->map_flood[j][i]);
+				}
+				break ;
+			}
+			data->map_flood[j][i] = set_value(data->map[index], data, j, i);
+			// printf("map characther %d  | y === %d | x == %d\n",
+			// 	data->map_flood[j][i], j, i);
+			if (data->map[index] == '\n' && i < data->map_width - 1)
+			{
+				while (i < data->map_width - 1)
+				{
+					data->map_flood[j][i] = 2;
+					// printf("%d ", data->map_flood[j][i]);
+					i++;
+				}
+			}
+			// printf("map characther %d  | y === %d | x == %d\n",
+			// 	data->map_flood[j][i], j, i);
+			// printf("%d ", data->map_flood[j][i]);
 			index++;
 			i++;
 		}
+		// printf("\n");
 		j++;
 	}
 	return (1);
