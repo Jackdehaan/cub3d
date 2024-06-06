@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 16:02:59 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 16:16:00 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 18:13:28 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,14 @@ void	render_walls(t_parsing *data, t_raycasting *values, t_dda *points)
 
 void	dda(t_parsing *data, t_raycasting *values)
 {
-	t_dda	*points;
+	static t_dda	*points;
 
-	points = (t_dda *)malloc(sizeof(t_dda));
 	if (!points)
-		return ;
+	{
+		points = (t_dda *)malloc(sizeof(t_dda));
+		if (!points)
+			return ;
+	}
 	points->y_begin = 0;
 	points->x_begin = 0;
 	points->extra = 0;

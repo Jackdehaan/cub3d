@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/01 11:51:25 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 16:21:56 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 18:15:38 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	main_loop(t_raycasting *values, t_parsing *data)
 		values->x1 = values->x;
 		values->y1 = values->drawEnd;
 		// printf("%d | %d | %d | %d ", values->x0, values->y0, values->x1,
-			// values->y1);
+		// values->y1);
 		dda(data, values);
 		while (index < values->i)
 		{
@@ -72,19 +72,18 @@ void	main_loop(t_raycasting *values, t_parsing *data)
 
 void	render_cube(t_parsing *data)
 {
-	t_raycasting	*values;
+	static t_raycasting	*values;
 
 	values = NULL;
 	if (!values)
-		values = (t_raycasting *)malloc(sizeof(t_raycasting));
-	if (!values)
 	{
-		free(values);
-		return ;
+		values = (t_raycasting *)malloc(sizeof(t_raycasting));
+		if (!values)
+			return ;
 	}
 	values->pitch = 100;
-	values->posX = data->player_position[1];
-	values->posY = data->player_position[0];
+	values->posX = data->player_pos[1];
+	values->posY = data->player_pos[0];
 	values->dirX = data->raycasting->dir_x;
 	values->dirY = data->raycasting->dir_y;
 	values->planeX = data->raycasting->plane_x;

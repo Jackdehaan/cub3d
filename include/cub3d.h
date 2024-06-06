@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/06 17:37:13 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 17:48:14 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define WIDTH 1420
 # define HEIGHT 1420
 # define BACKGROUND_COLOR 0x22222200
-# define MOV_SPEED 0.075
+# define MV_SPD 0.075
 # define ROT_SPEED 0.1
 # define TEX_WIDTH 64
 # define TEX_HEIGHT 64
@@ -79,7 +79,7 @@ typedef struct t_parsing
 	unsigned int		hex_floor;
 	char				*ceiling_color;
 	unsigned int		hex_ceiling;
-	double				player_position[2];
+	double				player_pos[2];
 	int					player_direction;
 	int					map_width;
 	int					map_height;

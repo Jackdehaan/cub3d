@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/06 17:39:32 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/06 18:19:32 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@ void	keys_s_w(t_parsing *data, double angle)
 
 	if (mlx_is_key_down(data->window, MLX_KEY_S))
 	{
-		new_x = data->player_position[1] - cos(angle) * (MOV_SPEED * 1.2);
-		new_y = data->player_position[0] - sin(angle) * (MOV_SPEED * 1.2);
+		new_x = data->player_pos[1] - cos(angle) * (MV_SPD * 1.2);
+		new_y = data->player_pos[0] - sin(angle) * (MV_SPD * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
-			data->player_position[0] = new_y;
-			data->player_position[1] = new_x;
+			data->player_pos[0] = new_y;
+			data->player_pos[1] = new_x;
 		}
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_W))
 	{
-		new_x = data->player_position[1] + cos(angle) * (MOV_SPEED * 1.2);
-		new_y = data->player_position[0] + sin(angle) * (MOV_SPEED * 1.2);
+		new_x = data->player_pos[1] + cos(angle) * (MV_SPD * 1.2);
+		new_y = data->player_pos[0] + sin(angle) * (MV_SPD * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
-			data->player_position[1] = new_x;
-			data->player_position[0] = new_y;
+			data->player_pos[1] = new_x;
+			data->player_pos[0] = new_y;
 		}
 	}
 }
@@ -46,22 +46,22 @@ void	keys_d_a(t_parsing *data, double angle)
 
 	if (mlx_is_key_down(data->window, MLX_KEY_D))
 	{
-		new_x = data->player_position[1] - cos(angle - M_PI / 2) * (MOV_SPEED * 1.2);
-		new_y = data->player_position[0] - sin(angle - M_PI / 2) * (MOV_SPEED * 1.2);
+		new_x = data->player_pos[1] - cos(angle - M_PI / 2) * (MV_SPD * 1.2);
+		new_y = data->player_pos[0] - sin(angle - M_PI / 2) * (MV_SPD * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
-			data->player_position[1] = new_x;
-			data->player_position[0] = new_y;
+			data->player_pos[1] = new_x;
+			data->player_pos[0] = new_y;
 		}
 	}
 	if (mlx_is_key_down(data->window, MLX_KEY_A))
 	{
-		new_x = data->player_position[1] + cos(angle - M_PI / 2) * (MOV_SPEED * 1.2);
-		new_y = data->player_position[0] + sin(angle - M_PI / 2) * (MOV_SPEED * 1.2);
+		new_x = data->player_pos[1] + cos(angle - M_PI / 2) * (MV_SPD * 1.2);
+		new_y = data->player_pos[0] + sin(angle - M_PI / 2) * (MV_SPD * 1.2);
 		if (is_valid_move(new_x, new_y, data))
 		{
-			data->player_position[1] = new_x;
-			data->player_position[0] = new_y;
+			data->player_pos[1] = new_x;
+			data->player_pos[0] = new_y;
 		}
 	}
 }
@@ -76,9 +76,8 @@ void	keys_loop(void *param)
 
 	data = param;
 	map = data->map_flood;
-	y = data->player_position[0];
-	x = data->player_position[1];
-	printf("%d | %d | %d\n", y, x, data->map_flood[y][x]);
+	y = data->player_pos[0];
+	x = data->player_pos[1];
 	angle = atan2(data->raycasting->dir_y, data->raycasting->dir_x);
 	if (mlx_is_key_down(data->window, MLX_KEY_ESCAPE))
 		mlx_close_window(data->window);
@@ -92,31 +91,16 @@ void	keys_loop(void *param)
 	render_cube(data);
 }
 
-void print_array(t_parsing *data)
-{
-	for (int y = 0; y < data->map_height; y++)
-	{
-		for (int x = 0; x < data->map_width; x++)
-		{
-			printf("%d ", data->map_flood[y][x]);
-		}
-		printf("\n");
-		
-	}
-	
-}
-
 int	main(int ac, char **av)
 {
 	static t_parsing	data;
-
+		
 	if (ac == 2)
 	{
 		if (!parsing(av[1], &data))
 			return (EXIT_FAILURE);
 		if (!set_ray_struct(&data))
 			return (EXIT_FAILURE);
-		print_array(&data);
 		mlx_loop_hook(data.window, keys_loop, &data);
 		mlx_loop(data.window);
 		mlx_terminate(data.window);
