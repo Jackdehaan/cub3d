@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 16:02:59 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 18:13:28 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:07:23 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ void	render_floor_celling(t_parsing *data, t_raycasting *values,
 
 void	render_walls(t_parsing *data, t_raycasting *values, t_dda *points)
 {
-	points->Yinc = points->dy / (float)points->steps;
-	points->X = values->x0;
-	points->Y = values->y0;
+	points->y_inc = points->dy / (float)points->steps;
+	points->x_ = values->x0;
+	points->y_ = values->y0;
 	points->i = 0;
 	while (points->i <= points->steps)
 	{
 		if (values->x0 > 0 && values->x0 < WIDTH && values->y0 > 0
 			&& values->y0 < HEIGHT)
 		{
-			mlx_put_pixel(data->image, round(points->X), round(points->Y),
+			mlx_put_pixel(data->image, round(points->x_), round(points->y_),
 				values->colors[points->extra]);
 			points->extra++;
 		}
-		points->Y += points->Yinc;
+		points->y_ += points->y_inc;
 		points->i++;
 	}
 }

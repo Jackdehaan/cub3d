@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:02:25 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/06 18:07:02 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:04:55 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,12 @@ void	empty_check(t_parsing *data, int *ret)
 		write(STDERR_FILENO, "Textures or colors not filled\n", 30);
 }
 
-int	tex_color_filled(t_parsing *data)
+int	t_tex_color_filled(t_parsing *data)
 {
 	int	ret;
 
 	ret = 1;
 	empty_check(data, &ret);
-
 	if (ret == 1)
 	{
 		ret = remove_whitespace(&data->ceiling_color, ret);

@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 15:28:50 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:04:55 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ int	read_file(t_parsing *data)
 		gnl_output = get_next_line(data->file_fd);
 		if (!gnl_output)
 			break ;
-		if (!check_if_tex_color(data, gnl_output))
+		if (!check_if_t_tex_color(data, gnl_output))
 			return (free_data(data), ft_free(&gnl_output), 0);
-		if (check_if_tex_color_return(gnl_output))
+		if (check_if_t_tex_color_return(gnl_output))
 			if (!gnl_to_map(gnl_output, data))
 				return (0);
 		ft_free(&gnl_output);
 	}
 	close(data->file_fd);
 	data->file_fd = -1;
-	if (!tex_color_filled(data))
+	if (!t_tex_color_filled(data))
 		return (ft_free(&gnl_output), free_data(data), 0);
 	return (ft_free(&gnl_output), 1);
 }

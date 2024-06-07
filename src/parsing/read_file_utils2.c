@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 16:06:58 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 15:31:10 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:04:55 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	set_data_tex(bool *already_exists, char *str, char **str_data)
 		*already_exists = true;
 }
 
-int	set_data(t_parsing *data, TEX_COLOR found, char *str)
+int	set_data(t_parsing *data, t_tex_color found, char *str)
 {
 	bool	already_exists;
 

@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 16:08:35 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 16:15:44 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:10:03 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,75 +40,70 @@ void	put_pixels(t_raycasting *values)
 	t_raycasting	*v;
 
 	v = values;
-	y = values->drawStart;
-	while (y < values->drawEnd)
+	y = v->drawstart;
+	while (y < v->drawend)
 	{
-		values->texY = (int)values->texPos & (TEX_HEIGHT - 1);
-		values->texPos += values->step;
-		if (values->texX >= 0 && values->texX < TEX_WIDTH && values->texY >= 0
-			&& values->texY < TEX_HEIGHT)
+		v->tex_y = (int)v->texpos & (TEX_HEIGHT - 1);
+		v->texpos += v->step;
+		if (v->tex_x >= 0 && v->tex_x < TEX_WIDTH && v->tex_y >= 0
+			&& v->tex_y < TEX_HEIGHT)
 		{
-			values->texelIndex = (TEX_WIDTH * values->texY + values->texX) * 4;
-			values->red = values->tex->pixels[values->texelIndex];
-			values->green = values->tex->pixels[values->texelIndex + 1];
-			values->blue = values->tex->pixels[values->texelIndex + 2];
-			values->alpha = values->tex->pixels[values->texelIndex + 3];
+			v->texel_index = (TEX_WIDTH * v->tex_y + v->tex_x) * 4;
+			v->red = v->tex->pixels[v->texel_index];
+			v->green = v->tex->pixels[v->texel_index + 1];
+			v->blue = v->tex->pixels[v->texel_index + 2];
+			v->alpha = v->tex->pixels[v->texel_index + 3];
 			tmp = (v->red << 24) | (v->green << 16) | (v->blue << 8) | v->alpha;
-			values->colors[values->i] = tmp;
+			v->colors[v->i] = tmp;
 		}
-		values->i++;
+		v->i++;
 		y++;
 	}
-}
-double	ft_abs_double(double x)
-{
-	if (x < 0)
-		return (-x);
-	return (x);
 }
 
 void	init_values_loop(t_raycasting *values)
 {
-	values->cameraX = 2 * values->x / (double)WIDTH - 1;
-	values->rayDirX = values->dirX + values->planeX * values->cameraX;
-	values->rayDirY = values->dirY + values->planeY * values->cameraX;
-	values->mapX = (int)values->posX;
-	values->mapY = (int)values->posY;
-	
-	if (values->rayDirX == 0)
-		values->deltaDistX = 1e30;
+	values->camera_x = 2 * values->x / (double)WIDTH - 1;
+	values->ray_dir_x = values->dir_x + values->plane_x * values->camera_x;
+	values->ray_dir_y = values->dir_y + values->plane_y * values->camera_x;
+	values->map_x = (int)values->pos_x;
+	values->map_y = (int)values->pos_y;
+	if (values->ray_dir_x == 0)
+		values->delta_dis_x = 1e30;
 	else
-		values->deltaDistX = ft_abs_double(1 / values->rayDirX);
-	if (values->rayDirY == 0)
-		values->deltaDistY = 1e30;
+		values->delta_dis_x = ft_abs_double(1 / values->ray_dir_x);
+	if (values->ray_dir_y == 0)
+		values->delta_dis_y = 1e30;
 	else
-		values->deltaDistY = ft_abs_double(1 / values->rayDirY);
+		values->delta_dis_y = ft_abs_double(1 / values->ray_dir_y);
 	values->hit = 0;
 }
 
 void	get_direction(t_raycasting *values)
 {
-	if (values->rayDirX < 0)
+	if (values->ray_dir_x < 0)
 	{
-		values->stepX = -1;
-		values->sideDistX = (values->posX - values->mapX) * values->deltaDistX;
+		values->stepx = -1;
+		values->side_dis_x = (values->pos_x - values->map_x)
+			* values->delta_dis_x;
 	}
 	else
 	{
-		values->stepX = 1;
-		values->sideDistX = (values->mapX + 1.0 - values->posX)
-			* values->deltaDistX;
+		values->stepx = 1;
+		values->side_dis_x = (values->map_x + 1.0 - values->pos_x)
+			* values->delta_dis_x;
 	}
-	if (values->rayDirY < 0)
+	if (values->ray_dir_y < 0)
 	{
-		values->stepY = -1;
-		values->sideDistY = (values->posY - values->mapY) * values->deltaDistY;
+		values->stepy = -1;
+		values->side_dis_y = (values->pos_y - values->map_y)
+			* values->delta_dis_y;
 	}
 	else
 	{
-		values->stepY = 1;
-		values->sideDistY = (values->mapY + 1.0 - values->posY)
-			* values->deltaDistY;
+		values->stepy = 1;
+		values->side_dis_y = (values->map_y + 1.0 - values->pos_y)
+			* values->delta_dis_y;
 	}
 }
 
@@ -116,23 +111,23 @@ void	get_wall(t_raycasting *values, t_parsing *data)
 {
 	while (values->hit == 0)
 	{
-		if (values->sideDistX < values->sideDistY)
+		if (values->side_dis_x < values->side_dis_y)
 		{
-			values->sideDistX += values->deltaDistX;
-			values->mapX += values->stepX;
+			values->side_dis_x += values->delta_dis_x;
+			values->map_x += values->stepx;
 			values->side = 0;
 		}
 		else
 		{
-			values->sideDistY += values->deltaDistY;
-			values->mapY += values->stepY;
+			values->side_dis_y += values->delta_dis_y;
+			values->map_y += values->stepy;
 			values->side = 1;
 		}
-		if (data->map_flood[values->mapY][values->mapX] > 0)
+		if (data->map_flood[values->map_y][values->map_x] > 0)
 			values->hit = 1;
 	}
 	if (values->side == 0)
-		values->perpWallDist = (values->sideDistX - values->deltaDistX);
+		values->perpwalldist = (values->side_dis_x - values->delta_dis_x);
 	else
-		values->perpWallDist = (values->sideDistY - values->deltaDistY);
+		values->perpwalldist = (values->side_dis_y - values->delta_dis_y);
 }

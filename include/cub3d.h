@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/06 17:48:14 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:06:38 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct t_ray
 	double				plane_x;
 }						t_ray;
 
-typedef enum TEX_COLOR
+typedef enum t_tex_color
 {
 	NO,
 	SO,
@@ -45,22 +45,68 @@ typedef enum TEX_COLOR
 	EA,
 	F,
 	C,
-}						TEX_COLOR;
+}						t_tex_color;
 
 typedef struct t_dda
 {
 	int					dx;
 	int					dy;
 	int					steps;
-	float				Yinc;
-	float				X;
-	float				Y;
+	float				y_inc;
+	float				x_;
+	float				y_;
 	int					i;
 	int					extra;
 	int					y_begin;
 	int					x_begin;
 	int					index;
 }						t_dda;
+
+typedef struct t_raycasting
+{
+	double				ray_dir_x;
+	double				ray_dir_y;
+	double				plane_x;
+	double				plane_y;
+	double				camera_x;
+	int					x;
+	int					map_x;
+	int					map_y;
+	double				pos_y;
+	double				side_dis_x;
+	double				side_dis_y;
+	double				delta_dis_x;
+	double				delta_dis_y;
+	double				pos_x;
+	double				dir_x;
+	double				dir_y;
+	double				perpwalldist;
+	int					stepx;
+	int					stepy;
+	int					hit;
+	int					side;
+	int					lineheight;
+	int					drawstart;
+	int					drawend;
+	int					x0;
+	int					y0;
+	int					x1;
+	int					texnum;
+	u_int32_t			colors[5000];
+	int					y1;
+	int					pitch;
+	int					i;
+	int					tex_x;
+	double				step;
+	double				texpos;
+	int					tex_y;
+	struct mlx_texture	*tex;
+	int					texel_index;
+	uint8_t				red;
+	uint8_t				green;
+	uint8_t				blue;
+	uint8_t				alpha;
+}						t_raycasting;
 
 typedef struct t_parsing
 {
@@ -89,53 +135,9 @@ typedef struct t_parsing
 	mlx_t				*window;
 	mlx_image_t			*image;
 	t_ray				*raycasting;
+	t_raycasting		*dda_values;
 }						t_parsing;
 
-typedef struct t_raycasting
-{
-	double				rayDirX;
-	double				rayDirY;
-	double				planeX;
-	double				planeY;
-	double				cameraX;
-	int					x;
-	int					mapX;
-	int					mapY;
-	double				posY;
-	double				sideDistX;
-	double				sideDistY;
-	double				deltaDistX;
-	double				deltaDistY;
-	double				posX;
-	double				dirX;
-	double				dirY;
-	double				perpWallDist;
-	int					stepX;
-	int					stepY;
-	int					hit;
-	int					side;
-	int					lineHeight;
-	int					drawStart;
-	int					drawEnd;
-	int					x0;
-	int					y0;
-	int					x1;
-	int					texNum;
-	u_int32_t			colors[5000];
-	int					y1;
-	int					pitch;
-	int					i;
-	int					texX;
-	double				step;
-	double				texPos;
-	int					texY;
-	struct mlx_texture	*tex;
-	int					texelIndex;
-	uint8_t				red;
-	uint8_t				green;
-	uint8_t				blue;
-	uint8_t				alpha;
-}						t_raycasting;
 /*
 PARSING
 */
@@ -147,7 +149,6 @@ int						check_map(t_parsing *data);
 int						init_map(t_parsing *data);
 int						set_ray_struct(t_parsing *data);
 int						valid_map(t_parsing *data);
-void					print_array(t_parsing *data);
 int						set_value(char value, t_parsing *data, int y, int x);
 
 void					rotate_left(t_parsing *data, double rot_speed);
@@ -164,27 +165,27 @@ int						color_missing_check(char *str, int ret);
 
 int						remove_whitespace(char **str, int ret);
 void					empty_check(t_parsing *data, int *ret);
-int						tex_color_filled(t_parsing *data);
+int						t_tex_color_filled(t_parsing *data);
 int						map_char(char c);
 char					*trim_spaces_from_end(char *line, t_parsing *data);
 
-int						check_if_tex_color(t_parsing *data, char *str);
-int						check_if_tex_color_return(char *str);
-int						xpm_file_check(char *str, mlx_texture_t **tex);
+int						check_if_t_tex_color(t_parsing *data, char *str);
+int						check_if_t_tex_color_return(char *str);
 int						check_tex_path(t_parsing *data, int ret);
 
 int						remove_nl(char *str);
 char					*skip_spaces(char *str);
-int						set_data(t_parsing *data, TEX_COLOR found, char *str);
+int						set_data(t_parsing *data, t_tex_color found, char *str);
 
 /*
 UTILS
 */
 void					ft_free(char **buffer);
 char					*ft_strndup(char *s, size_t n);
-void					print_tex_color(t_parsing *data);
 void					free_data(t_parsing *data);
 void					render_cube(t_parsing *data);
+double					ft_abs_double(double x);
+int						add_last_line_2(t_parsing *data, int *j);
 
 // dda
 void					dda(t_parsing *data, t_raycasting *values);

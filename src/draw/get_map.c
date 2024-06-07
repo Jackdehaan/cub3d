@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:33:44 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 13:57:19 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 15:56:31 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	init_map(t_parsing *data)
 	int	index;
 
 	j = 0;
-	i = 0;
 	index = 0;
 	get_map_size(data);
 	data->map_flood = set_two(data);
@@ -106,35 +105,15 @@ int	init_map(t_parsing *data)
 		i = 0;
 		while (i < data->map_width)
 		{
-			if (j == data->map_height - 1)
-			{
-				i = -1;
-				while (++i < data->map_width)
-				{
-					data->map_flood[j][i] = 2;
-					// printf("%d ", data->map_flood[j][i]);
-				}
+			if (!add_last_line_2(data, &j))
 				break ;
-			}
 			data->map_flood[j][i] = set_value(data->map[index], data, j, i);
-			// printf("map characther %d  | y === %d | x == %d\n",
-			// 	data->map_flood[j][i], j, i);
 			if (data->map[index] == '\n' && i < data->map_width - 1)
-			{
 				while (i < data->map_width - 1)
-				{
-					data->map_flood[j][i] = 2;
-					// printf("%d ", data->map_flood[j][i]);
-					i++;
-				}
-			}
-			// printf("map characther %d  | y === %d | x == %d\n",
-			// 	data->map_flood[j][i], j, i);
-			// printf("%d ", data->map_flood[j][i]);
+					data->map_flood[j][i++] = 2;
 			index++;
 			i++;
 		}
-		// printf("\n");
 		j++;
 	}
 	return (1);

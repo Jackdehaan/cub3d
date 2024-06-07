@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/06 18:19:32 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 15:15:06 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ void	keys_loop(void *param)
 int	main(int ac, char **av)
 {
 	static t_parsing	data;
-		
+
+	data.dda_values = (t_raycasting *)malloc(sizeof(t_raycasting));
+	if (!data.dda_values)
+		return (EXIT_FAILURE);
 	if (ac == 2)
 	{
 		if (!parsing(av[1], &data))
@@ -108,6 +111,7 @@ int	main(int ac, char **av)
 	}
 	else
 		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21),
-			EXIT_FAILURE);
+			free(data.dda_values), EXIT_FAILURE);
+	free(data.dda_values);
 	return (EXIT_SUCCESS);
 }

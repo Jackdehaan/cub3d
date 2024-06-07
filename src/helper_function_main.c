@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 16:57:25 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/06 17:44:42 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 15:30:07 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	roundd(double d)
 
 int	is_valid_move(double x, double y, t_parsing *data)
 {
-	
-	if (data->map_width < (x)  || data->map_flood[(int)y][((int)x)] != 0 || data->map_flood[roundd(y)][roundd(x)] != 0)
+	if (data->map_width < (x) || data->map_flood[(int)y][((int)x)] != 0
+		|| data->map_flood[roundd(y)][roundd(x)] != 0)
 		return (0);
 	if (data->map_height < (y))
 		return (0);
