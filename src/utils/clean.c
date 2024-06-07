@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 14:01:04 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 15:05:42 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:14:59 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,18 @@ void	free_map_flood(t_parsing *data)
 		free(data->map_flood);
 }
 
+void	free_textures(t_parsing *data)
+{
+	if (data->fd_north_tex)
+		mlx_delete_texture(data->fd_north_tex);
+	if (data->fd_south_tex)
+		mlx_delete_texture(data->fd_south_tex);
+	if (data->fd_east_tex)
+		mlx_delete_texture(data->fd_east_tex);
+	if (data->fd_west_tex)
+		mlx_delete_texture(data->fd_west_tex);
+}
+
 void	free_data(t_parsing *data)
 {
 	clean_gnl(data->file_fd);
@@ -70,12 +82,6 @@ void	free_data(t_parsing *data)
 		ft_free(&data->ceiling_color);
 	if (data->map_flood)
 		free_map_flood(data);
-	if (data->fd_north_tex)
-		mlx_delete_texture(data->fd_north_tex);
-	if (data->fd_south_tex)
-		mlx_delete_texture(data->fd_south_tex);
-	if (data->fd_east_tex)
-		mlx_delete_texture(data->fd_east_tex);
-	if (data->fd_west_tex)
-		mlx_delete_texture(data->fd_west_tex);
+	free_textures(data);
+	free(data->dda_values);
 }

@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:10:49 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 15:15:06 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 16:14:18 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,16 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		if (!parsing(av[1], &data))
-			return (EXIT_FAILURE);
+			return (free_data(&data), EXIT_FAILURE);
 		if (!set_ray_struct(&data))
-			return (EXIT_FAILURE);
+			return (free_data(&data), EXIT_FAILURE);
 		mlx_loop_hook(data.window, keys_loop, &data);
 		mlx_loop(data.window);
 		mlx_terminate(data.window);
 		free_data(&data);
 	}
 	else
-		return (write(STDERR_FILENO, "usage: ./cub3D *.cub\n", 21),
-			free(data.dda_values), EXIT_FAILURE);
-	free(data.dda_values);
+		return (free(data.dda_values), write(STDERR_FILENO,
+				"usage: ./cub3D *.cub\n", 21), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
