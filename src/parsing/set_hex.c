@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 15:28:19 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/05/03 15:12:57 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 18:22:05 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	find_rgb_part(char *str, char **part, int *i)
 	return (1);
 }
 
-unsigned int	rgb_to_hex(int r, int g, int b)
+uint32_t	compute_color(uint32_t r, uint32_t g, uint32_t b, uint32_t a)
 {
-	return (((unsigned int)r << 16) + ((unsigned int)g << 8) + (unsigned int)b);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
 void	free_rgb_parts(char **r, char **g, char **b)
@@ -50,7 +50,7 @@ void	free_rgb_parts(char **r, char **g, char **b)
 	ft_free(b);
 }
 
-int	set_hex_color(char **str, unsigned int *hex, int ret)
+int	set_hex_color(char **str, uint32_t *hex, int ret)
 {
 	char	*r;
 	char	*g;
@@ -67,7 +67,7 @@ int	set_hex_color(char **str, unsigned int *hex, int ret)
 	if (!find_rgb_part(*str, &b, &i))
 		return (ft_free(&r), ft_free(&g), 0);
 	ft_free(str);
-	*hex = rgb_to_hex(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	*hex = compute_color(ft_atoi(r), ft_atoi(g), ft_atoi(b), 255);
 	free_rgb_parts(&r, &g, &b);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 17:20:30 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 17:32:43 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	gnl_to_map(char *gnl_output, t_parsing *data)
 			ft_free(&gnl_output);
 			ft_free(&trimmed_line);
 			write(STDERR_FILENO, "Found empty line in map\n", 24);
+			free_data(data);
 			exit(EXIT_FAILURE);
 		}
 		data->found_start = true;

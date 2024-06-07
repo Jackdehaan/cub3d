@@ -6,11 +6,31 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/16 15:40:02 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 16:58:38 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 18:22:55 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+int	check_if_only_zeros(char *str, int *idx, int y)
+{
+	int	x;
+
+	x = 0;
+	if (y == 0 && str[(*idx)] == '0')
+	{
+		while (str[(*idx)] == '0')
+		{
+			(*idx)++;
+			x++;
+		}
+		if (!str[(*idx)] || str[(*idx)] == ',')
+			(*idx) -= x;
+		else
+			return (0);
+	}
+	return (1);
+}
 
 int	malloc_color(char **color, char *str, int i)
 {
@@ -19,11 +39,8 @@ int	malloc_color(char **color, char *str, int i)
 	y = 0;
 	while (str[i] && str[i] != ',')
 	{
-		if (y == 0 && str[i] == '0')
-		{
-			i++;
+		if (!check_if_only_zeros(str, &i, y))
 			continue ;
-		}
 		y++;
 		i++;
 	}
@@ -61,8 +78,8 @@ int	color_valid_check(char *str, int ret)
 			return (0);
 		while (str[i] && str[i] != ',')
 		{
-			while (y == 0 && str[i] == '0')
-				i++;
+			if (!check_if_only_zeros(str, &i, y))
+				continue ;
 			color[y++] = str[i++];
 		}
 		color[y] = '\0';

@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 16:06:38 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 18:07:57 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,9 @@ typedef struct t_parsing
 	mlx_texture_t		*fd_west_tex;
 	mlx_texture_t		*fd_east_tex;
 	char				*floor_color;
-	unsigned int		hex_floor;
+	uint32_t			hex_floor;
 	char				*ceiling_color;
-	unsigned int		hex_ceiling;
+	uint32_t			hex_ceiling;
 	double				player_pos[2];
 	int					player_direction;
 	int					map_width;
