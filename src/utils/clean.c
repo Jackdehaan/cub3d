@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 14:01:04 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 16:14:59 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 17:17:52 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	clean_gnl(int file_fd)
 {
 	char	*line;
 
-	if (file_fd == -1)
+	if (file_fd == -1 || file_fd == 0)
 		return ;
 	while (1)
 	{
@@ -83,5 +83,8 @@ void	free_data(t_parsing *data)
 	if (data->map_flood)
 		free_map_flood(data);
 	free_textures(data);
-	free(data->dda_values);
+	if (data->raycasting)
+		free(data->raycasting);
+	if (data->dda_values)
+		free(data->dda_values);
 }

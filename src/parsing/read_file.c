@@ -6,7 +6,7 @@
 /*   By: rfinneru <rfinneru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/29 13:53:36 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 16:04:55 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 17:20:30 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	gnl_to_map(char *gnl_output, t_parsing *data)
 		if (data->found_end)
 		{
 			ft_free(&gnl_output);
-			free_data(data);
 			ft_free(&trimmed_line);
 			write(STDERR_FILENO, "Found empty line in map\n", 24);
 			exit(EXIT_FAILURE);
@@ -54,7 +53,7 @@ int	read_file(t_parsing *data)
 		if (!gnl_output)
 			break ;
 		if (!check_if_t_tex_color(data, gnl_output))
-			return (free_data(data), ft_free(&gnl_output), 0);
+			return (ft_free(&gnl_output), 0);
 		if (check_if_t_tex_color_return(gnl_output))
 			if (!gnl_to_map(gnl_output, data))
 				return (0);
@@ -63,6 +62,6 @@ int	read_file(t_parsing *data)
 	close(data->file_fd);
 	data->file_fd = -1;
 	if (!t_tex_color_filled(data))
-		return (ft_free(&gnl_output), free_data(data), 0);
+		return (ft_free(&gnl_output), 0);
 	return (ft_free(&gnl_output), 1);
 }

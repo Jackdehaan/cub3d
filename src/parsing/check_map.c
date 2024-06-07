@@ -6,7 +6,7 @@
 /*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/31 14:46:33 by jade-haa      #+#    #+#                 */
-/*   Updated: 2024/06/07 15:53:02 by rfinneru      ########   odam.nl         */
+/*   Updated: 2024/06/07 17:20:51 by rfinneru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_map(t_parsing *data)
 		{
 			if (!check_if_valid(data, data->map_flood, y, x))
 			{
-				return (free_data(data), write(STDERR_FILENO,
+				return ( write(STDERR_FILENO,
 						"Map not closed\n", 15), 0);
 			}
 			x++;
