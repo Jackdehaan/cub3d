@@ -1,5 +1,5 @@
 # cub3D
-![cub3d](content/screenshot.png)
+<img src="content/screenshot.png" alt="cub3D" width="500"/>
 
 *Creating a 3D graphical representation of the inside of a maze from a first-person perspective by using a Ray-Casting algorithm.*
 
