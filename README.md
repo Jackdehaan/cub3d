@@ -1,7 +1,7 @@
 # cub3D
 <div style="display: flex; justify-content: center;">
     <img src="content/screenshot.png" alt="cub3D" width="250" style="margin-right: 10px;"/>
-    <img src="content/file.png" alt="Test" width="250"/>
+    <img src="content/test.png" alt="Test" width="250"/>
 </div>
 
 *Creating a 3D graphical representation of the inside of a maze from a first-person perspective by using a Ray-Casting algorithm.*
