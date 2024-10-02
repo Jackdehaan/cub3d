@@ -1,12 +1,12 @@
-NO texture/barrel.png
-SO texture/barrel.png
-EA texture/barrel.png
-WE texture/barrel.png
+NO texture/mossy.png
+SO texture/redbrick.png
+EA texture/mossy.png
+WE texture/redbrick.png
 
 F 120,120,120
-C 200,200,200
+C 102,255,255
 111111111111111
-111111N00111111
+111111S00111111
 111110000011111
 111100000001111
 111000000000111

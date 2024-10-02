@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jade-haa <jade-haa@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/03/29 12:11:10 by rfinneru      #+#    #+#                 */
-/*   Updated: 2024/06/07 18:07:57 by rfinneru      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jade-haa <jade-haa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 12:11:10 by rfinneru          #+#    #+#             */
+/*   Updated: 2024/10/02 15:03:55 by jade-haa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <stdio.h>
 # include <unistd.h>
 
-# define WIDTH 1420
-# define HEIGHT 1420
+# define WIDTH 720
+# define HEIGHT 720
 # define BACKGROUND_COLOR 0x22222200
 # define MV_SPD 0.075
 # define ROT_SPEED 0.1
